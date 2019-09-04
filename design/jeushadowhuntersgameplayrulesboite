@@ -1,0 +1,10 @@
+plateau
+frise de vie : 0 à 14 inclus :
+    - 8 points : A jaune
+    - 10 : B jaune, E bleu
+    - 11 : M rouge, C jaune
+    - 12 : OUI C'EST FRANKLIN (bleu)
+    - 13 : D jaune, V rouge
+    - 14 : G bleu, L rouge
+zones de carte : lumière, vision, ténèbre
+zones de lieu : 6
