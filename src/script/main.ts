@@ -11,8 +11,12 @@ async function joinRoom(room, name: string) { // TODO Temp
     socket.on('update:blabla', () => {});
     socket.on('update:truc', () => {});
 
+    socket.on('update:playerjoined', player => { console.log(player.name + ' joined the room')});
+
+    socket.on('error', payload => { console.error(payload)});
+
     // Let know the server this socket is ready to be used in the correct room
-    socket.emit('request:joinroom', room, name);
+    socket.emit('request:joinroom', { room, name });
 }
 
 // Temp
@@ -21,5 +25,6 @@ async function joinRoom(room, name: string) { // TODO Temp
     console.log(response);
     console.log(await RoomApi.create("room1"));
     console.log(await RoomApi.list());
+    joinRoom({name: 'room1'}, (<HTMLInputElement>document.getElementById('namefield')).value);
 })();
 

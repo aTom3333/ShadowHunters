@@ -39,12 +39,12 @@ export default class RoomApi {
      * @param name The username
      */
     static async join(room, name: string): Promise<JsonResponse<void>> { // TODO add Room type
-        const response = await fetch('http://shadowhunter/api/create', {
+        const response = await fetch('http://shadowhunter/api/join', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name })
+            body: JSON.stringify({ room, name })
         });
         if(response.status !== 200)
             throw new Error('Problem while creating the room');
