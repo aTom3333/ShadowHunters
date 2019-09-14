@@ -1,9 +1,10 @@
 import './../style/main.scss';
-
-import * as _ from 'lodash';
 import * as $ from 'jquery';
 import * as io from 'socket.io-client';
 import RoomApi from './client/RoomApi';
+import waitFor from "./common/Utility/waitForSocket";
+import {GameManager} from "./client/GameManager";
+import {StatusType} from "./common/Protocol/JsonResponse";
 
 
 function makeAnswerChoiceRequest(socket) {
@@ -27,11 +28,14 @@ function makeAnswerChoiceRequest(socket) {
 
 async function joinRoom(room, name: string) { // TODO Temp
     const state = await RoomApi.join(room, name);
+    if(state.status.type !== StatusType.success) {
+        throw new Error(state.status.message);
+    }
     // Save current Game state
     const socket = io();
 
     // Bind update events
-    socket.on('update:blabla', () => {});
+    /*socket.on('update:blabla', () => {});
     socket.on('update:truc', () => {});
 
     socket.on('update:playerjoined', player => { console.log(player.name + ' joined the room')});
@@ -39,9 +43,13 @@ async function joinRoom(room, name: string) { // TODO Temp
     socket.on('error', payload => { console.error(payload)});
 
     socket.on('request:choice', makeAnswerChoiceRequest(socket));
+    */
+
+    new GameManager(socket, state.content);
 
     // Let know the server this socket is ready to be used in the correct room
     socket.emit('request:joinroom', { room, name });
+    await waitFor(socket, 'response:roomjoined');
 }
 
 // Temp

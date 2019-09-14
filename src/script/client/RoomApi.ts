@@ -47,7 +47,7 @@ export default class RoomApi {
             body: JSON.stringify({ room, name })
         });
         if(response.status !== 200)
-            throw new Error('Problem while creating the room');
+            throw new Error('Problem while joining the room');
 
         return await response.json();
     }
