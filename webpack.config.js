@@ -18,7 +18,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
             }
         ]
     },
@@ -26,6 +26,8 @@ module.exports = {
         extensions: [".tsx", ".ts", ".js"]
     },
     plugins: [
-        new MiniCssExtractPlugin({})
+        new MiniCssExtractPlugin({
+            filename: '../css/[name].css'
+        })
     ]
 };
