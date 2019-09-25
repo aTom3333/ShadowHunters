@@ -1,3 +1,40 @@
-input {
-  background: red;
+html, body, .room-selection {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: #252129;
+}
+
+.room-selection {
+  header {
+    background-color: #60566b;
+    height: 100px;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    form.name-form {
+      label {
+        color: #8a3521;
+        font-weight: bold;
+        text-shadow: 0 0 1px #e0d5a4, 0 0 1px #e0d5a4, 0 0 1px #e0d5a4, 0 0 1px #e0d5a4;
+      }
+
+      .change-name {
+        font-size: 10px;
+      }
+    }
+  }
+
+  main {
+    width: calc(100px + 60%);
+    padding: 20px;
+    margin: 40px auto;
+    background-color: #3b3441;
+  }
 }
