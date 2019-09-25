@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "jquery": "^3.4.1",
+    "js-cookie": "^2.2.1",
     "lodash": "^4.17.15",
-    "socket.io-client": "^2.2.0",
-    "request-promise-native": "latest"
+    "request-promise-native": "latest",
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
     "@types/jquery": "^3.3.31",
+    "@types/js-cookie": "^2.2.2",
     "@types/lodash": "^4.14.138",
     "@types/socket.io-client": "^1.4.32",
     "css-loader": "^3.2.0",

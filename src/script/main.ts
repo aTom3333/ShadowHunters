@@ -6,6 +6,7 @@ import waitFor from "./common/Utility/waitForSocket";
 import {GameManager} from "./client/GameManager";
 import {StatusType} from "./common/Protocol/JsonResponse";
 import {UIManager} from "./client/UIManager";
+import {Data} from "./client/Data";
 
 
 function makeAnswerChoiceRequest(socket) {
@@ -62,4 +63,4 @@ async function joinRoom(room, name: string) { // TODO Temp
     joinRoom({name: 'room1'}, (<HTMLInputElement>document.getElementById('namefield')).value);
 })();
 
-new UIManager();
+new UIManager(new Data());

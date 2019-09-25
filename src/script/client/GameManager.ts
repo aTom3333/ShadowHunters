@@ -30,11 +30,6 @@ export class GameManager {
                     console.log('I am ');
                     console.log(this.board.states.find(c => c.id === this.selfId));
                 });
-                // TODO Temp
-                document.getElementById('startGame').style.display = 'none';
-            });
-            document.getElementById('startGame').addEventListener('click', () => {
-                this.socket.emit('request:startgame', {});
             });
             console.log('listening');
         }
@@ -47,5 +42,9 @@ export class GameManager {
     private addCharacterData(data: any) {
         const revealedCharacter = this.board.states.find(c => c.id === data.id);
         revealedCharacter.identity = data.identity;
+    }
+
+    destroy() {
+        this.socket.close();
     }
 }

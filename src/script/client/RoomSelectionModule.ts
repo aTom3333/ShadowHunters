@@ -13,10 +13,10 @@ export class RoomSelectionModule implements UIModule {
     }
 
     initialize(): void {
-        this.rootElem.style.display = 'initial';
 
         this.initializeNameForm();
 
+        this.rootElem.style.display = 'initial';
         /*** Room List ***/
     }
 
@@ -56,19 +56,24 @@ export class RoomSelectionModule implements UIModule {
             event.preventDefault();
 
             const input: HTMLInputElement = form.querySelector('input.name-input');
-            const name = input.value; // TODO Store name
+            const name = input.value;
+            this.manager.data.name = name;
 
             showNameDisplay(name);
         };
         this.listeners.changeNameButton = (event: Event) => {
             event.preventDefault();
 
-            const name = '';// TODO Retrieve name
+            const name = this.manager.data.name;
 
             showNameInput(name);
         };
 
-        form.addEventListener('submit', this.listeners.nameFormSubmit);
+        if(this.manager.data.hasName()) {
+            showNameDisplay(this.manager.data.name);
+        } else {
+            showNameInput('');
+        }
     }
 
     deinitialize(): void {

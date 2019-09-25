@@ -1,4 +1,5 @@
 import {RoomSelectionModule} from "./RoomSelectionModule";
+import {Data} from "./Data";
 
 
 export enum UIState {
@@ -15,8 +16,10 @@ export interface UIModule {
 export class UIManager {
     state: UIState;
     module: UIModule;
+    data: Data;
 
-    constructor() {
+    constructor(data: Data) {
+        this.data = data;
         // TODO Test state
         this.switchTo(UIState.RoomSelection);
     }
