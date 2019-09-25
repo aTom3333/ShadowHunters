@@ -8,6 +8,12 @@ body {
   background-color: #252129;
 }
 
+%title-effect {
+  color: #8a3521;
+  font-weight: bold;
+  text-shadow: 0 0 1px #e0d5a4, 0 0 1px #e0d5a4, 0 0 1px #e0d5a4, 0 0 1px #e0d5a4;
+}
+
 .room-selection {
   header {
     background-color: #60566b;
@@ -17,12 +23,14 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    color: #c9c9c9;
 
     form.name-form {
       label {
-        color: #8a3521;
+      }
+
+      .name-display {
         font-weight: bold;
-        text-shadow: 0 0 1px #e0d5a4, 0 0 1px #e0d5a4, 0 0 1px #e0d5a4, 0 0 1px #e0d5a4;
       }
 
       .change-name {
@@ -36,5 +44,45 @@ body {
     padding: 20px;
     margin: 40px auto;
     background-color: #3b3441;
+    color: #c9c9c9;
+
+    section {
+      margin-top: 20px;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    .list-room {
+      ul {
+        list-style-type: none;
+      }
+
+      .room-item {
+        display: flex;
+        border: solid 1px rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        margin-top: 10px;
+        justify-content: space-between;
+        align-items: center;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        .room-name {
+          font-size: 1.2em;
+          font-weight: bold;
+          @extend %title-effect;
+          flex: 1;
+        }
+
+        & > * {
+          margin: 0 10px;
+          line-height: 1.2em;
+        }
+      }
+    }
   }
 }

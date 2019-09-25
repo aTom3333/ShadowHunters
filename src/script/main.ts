@@ -58,7 +58,7 @@ async function joinRoom(room, name: string) { // TODO Temp
 (async()=>{
     const response = await RoomApi.list();
     console.log(response);
-    console.log(await RoomApi.create("room1"));
+    console.log(await RoomApi.create("room2"));
     console.log(await RoomApi.list());
     joinRoom({name: 'room1'}, (<HTMLInputElement>document.getElementById('namefield')).value);
 })();

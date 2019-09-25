@@ -1,11 +1,12 @@
 import JsonResponse from "../common/Protocol/JsonResponse";
+import {RoomSummary} from "../common/Protocol/RoomInterface";
 
 export default class RoomApi {
 
     /**
      * Request the server to get the list of Room
      */
-    static async list(): Promise<JsonResponse<Array<any>>> { // TODO Change type to be Rooms
+    static async list(): Promise<JsonResponse<Array<RoomSummary>>> {
         const response = await fetch('http://shadowhunter/api/list');
         if(response.status !== 200)
             throw new Error('Problem while listing the rooms');
@@ -18,7 +19,7 @@ export default class RoomApi {
      * Request the server to create a Room
      * @param name The name of the room to create
      */
-    static async create(name: string): Promise<JsonResponse<any>> { // TODO return created Room
+    static async create(name: string): Promise<JsonResponse<RoomSummary>> {
         const response = await fetch('http://shadowhunter/api/create', {
             method: 'post',
             headers: {
