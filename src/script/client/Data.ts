@@ -2,9 +2,11 @@ import * as Cookie from 'js-cookie';
 
 export class Data {
     private internalName: string;
+    private internalRoomName: string;
 
     constructor() {
         this.internalName = '';
+        this.internalRoomName = '';
     }
 
     get name(): string {
@@ -28,5 +30,24 @@ export class Data {
 
     hasName(): boolean {
         return !!this.name;
+    }
+
+    get roomName(): string {
+        if(this.internalRoomName)
+            return this.internalRoomName;
+
+        const hash = window.location.hash;
+        if(hash) {
+            let name = hash.substring(1);
+            name = decodeURI(name);
+            this.internalRoomName = name;
+            return name;
+        } else
+            return '';
+    }
+
+    set roomName(roomName: string) {
+        this.internalRoomName = roomName;
+        window.location.hash = encodeURI(roomName);
     }
 }

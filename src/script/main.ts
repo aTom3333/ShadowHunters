@@ -54,13 +54,7 @@ async function joinRoom(room, name: string) { // TODO Temp
     await waitFor(socket, 'response:roomjoined');
 }
 
-// Temp
-(async()=>{
-    const response = await RoomApi.list();
-    console.log(response);
-    console.log(await RoomApi.create("room2"));
-    console.log(await RoomApi.list());
-    joinRoom({name: 'room1'}, (<HTMLInputElement>document.getElementById('namefield')).value);
-})();
 
-new UIManager(new Data());
+
+window['data'] = new Data();
+new UIManager(window['data']);

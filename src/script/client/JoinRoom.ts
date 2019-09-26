@@ -17,6 +17,8 @@ export async function joinRoom(uimanager: UIManager, room: RoomSummary) {
         const data = response.content;
         const socket = io();
 
+        uimanager.data.roomName = room.name;
+
         new GameManager(socket, data);
         // TODO Link GameManager and UIManager
         // TODO Change state of UIManager
