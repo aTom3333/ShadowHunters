@@ -14,31 +14,31 @@ body {
   text-shadow: 0 0 1px #e0d5a4, 0 0 1px #e0d5a4, 0 0 1px #e0d5a4, 0 0 1px #e0d5a4;
 }
 
-.room-selection {
-  header {
-    background-color: #60566b;
-    height: 100px;
-    padding: 10px 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    color: #c9c9c9;
+header {
+  background-color: #60566b;
+  height: 100px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: #c9c9c9;
 
-    form.name-form {
-      label {
-      }
+  form.name-form {
+    label {
+    }
 
-      .name-display {
-        font-weight: bold;
-      }
-
-      .change-name {
-        font-size: 10px;
-      }
+    .change-name {
+      font-size: 10px;
     }
   }
 
+  .name-display {
+    font-weight: bold;
+  }
+}
+
+.room-selection {
   main {
     width: calc(100px + 60%);
     padding: 20px;
