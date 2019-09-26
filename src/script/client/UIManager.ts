@@ -4,7 +4,7 @@ import {Popup} from "./Popup";
 import {SetupGameModule} from "./SetupGameModule";
 import {joinRoom} from "./JoinRoom";
 import {RoomState} from "../common/Protocol/RoomInterface";
-import {GameManager} from "./GameManager";
+import {GameManager, Player} from "./GameManager";
 
 
 export enum UIState {
@@ -109,5 +109,24 @@ export class UIManager {
         this.currentPopup = popup;
 
         return promise;
+    }
+
+    alert(alert: any) {
+        // TODO Implement
+    }
+
+    error(error: any) {
+        console.log(error);
+        // TODO Implement
+    }
+
+    log(info: any) {
+        console.log(info);
+        // TODO Implement
+    }
+
+    updatePlayerList(players: Array<Player>) {
+        if(this.state === UIState.BeforeGame)
+            (this.module as SetupGameModule).updatePlayerList(players);
     }
 }
