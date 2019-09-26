@@ -50,13 +50,19 @@ export class UIManager {
                 popupBg.style.display = 'none';
                 holder.innerHTML = '';
                 popupBg.removeEventListener('click', closeWithDefault);
+                holder.removeEventListener('click', stopPropagation);
                 resolve(result);
             };
             const closeWithDefault = (event: Event) => {
                 closePopupFn(popup.cancelValue);
             };
+            const stopPropagation = (event: Event) => {
+                event.stopPropagation();
+                event.preventDefault();
+            };
 
             popupBg.addEventListener('click', closeWithDefault);
+            holder.addEventListener('click', stopPropagation);
 
             holder.appendChild(popup.content);
             popupBg.style.display = 'flex';

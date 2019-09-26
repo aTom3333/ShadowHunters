@@ -89,7 +89,7 @@ body {
 
 .popup-bg {
   margin: 0;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
@@ -99,5 +99,8 @@ body {
 
   .popup-holder {
     margin: auto;
+    background-color: #3b3441;
+    padding: 20px;
+    color: #c9c9c9;
   }
 }

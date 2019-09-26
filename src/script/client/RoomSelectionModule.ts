@@ -4,7 +4,7 @@ import {StatusType} from "../common/Protocol/JsonResponse";
 import {instantiateTemplate} from "./Utilities";
 import {RoomState} from "../common/Protocol/RoomInterface";
 import {joinRoom} from "./JoinRoom";
-import {Popup} from "./Popup";
+import {FormPopup} from "./FormPopup";
 
 
 export class RoomSelectionModule implements UIModule {
@@ -85,10 +85,42 @@ export class RoomSelectionModule implements UIModule {
 
     private initializeRoomList() {
         this.refreshRoomList();
-        // TODO Temp
-        document.querySelector('.create-room .new-room').addEventListener('click', async () => {
-            console.log(await this.manager.popup(new Popup<string>(document.createElement('input'), 'yo')));
-        })
+
+        this.listeners.createRoomButton = async (event: Event) => {
+            event.preventDefault();
+
+            const form = {
+                'Nom de la Salle': 'string'
+            };
+
+            const formData = await this.manager.popup(new FormPopup<{'Nom de la Salle': string}>(form));
+
+            if(!formData)
+                return;
+
+            const name = formData['Nom de la Salle'];
+
+            const response = await RoomApi.create(name);
+            if(response.status.type !== StatusType.success) {
+                // TODO Error handling
+            } else {
+                // TODO Show "Salle crée avec succès"
+                const room = response.content;
+                const ul = document.querySelector('.list-room .room-list-holder ul');
+                const template = document.querySelector('.list-room .room-item-template');
+                let item = instantiateTemplate(template as HTMLTemplateElement, {
+                    '.room-name': room.name,
+                    '.room-state': room.state === RoomState.Setup ? 'Mise en place' : room.state === RoomState.Playing ? 'En cours' : 'Fini',
+                    '.room-noplayer': room.noplayers + ' Joueur(s)'
+                });
+                this.listeners['joinRoom_'+room.name] = (event: Event) => {
+                    joinRoom(this.manager, room);
+                };
+                ul.appendChild(item);
+                ul.lastElementChild.querySelector('.join-room').addEventListener('click', this.listeners['joinRoom_'+room.name]);
+            }
+        };
+        document.querySelector('.create-room .new-room').addEventListener('click', this.listeners.createRoomButton);
     }
 
     private async refreshRoomList() {
