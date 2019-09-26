@@ -4,6 +4,7 @@ import {StatusType} from "../common/Protocol/JsonResponse";
 import {instantiateTemplate} from "./Utilities";
 import {RoomState} from "../common/Protocol/RoomInterface";
 import {joinRoom} from "./JoinRoom";
+import {Popup} from "./Popup";
 
 
 export class RoomSelectionModule implements UIModule {
@@ -84,6 +85,10 @@ export class RoomSelectionModule implements UIModule {
 
     private initializeRoomList() {
         this.refreshRoomList();
+        // TODO Temp
+        document.querySelector('.create-room .new-room').addEventListener('click', async () => {
+            console.log(await this.manager.popup(new Popup<string>(document.createElement('input'), 'yo')));
+        })
     }
 
     private async refreshRoomList() {
@@ -104,11 +109,9 @@ export class RoomSelectionModule implements UIModule {
                 this.listeners['joinRoom_'+r.name] = (event: Event) => {
                     joinRoom(this.manager, r);
                 };
-                console.log(item);
-                //item.querySelector('join-room').addEventListener('click', this.listeners['joinRoom_'+r.name]);
                 ul.appendChild(item);
-                console.log(ul.lastElementChild);
                 ul.lastElementChild.querySelector('.join-room').addEventListener('click', this.listeners['joinRoom_'+r.name]);
+                // TODO Refactor not storing the callback if it turns out to be useless
             });
 
             const listHolder = document.querySelector('.list-room .room-list-holder');
