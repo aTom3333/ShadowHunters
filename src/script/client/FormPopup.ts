@@ -81,5 +81,6 @@ export class FormPopup<T> extends Popup<T> {
             console.log(data);
             this.closePopup(data);
         });
+        (this.form.querySelector('input, textarea, select') as HTMLElement).focus();
     }
 }

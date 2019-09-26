@@ -30,7 +30,7 @@ export class RoomSelectionModule implements UIModule {
     private initializeNameForm() {
         const form = this.rootElem.querySelector('form.name-form');
 
-        const showNameInput = (name: string) => {
+        const showNameInput = (name: string, doFocus: boolean = false) => {
             const input: HTMLInputElement = form.querySelector('input.name-input');
             const display: HTMLSpanElement = form.querySelector('span.name-display');
             const changeButton: HTMLAnchorElement = form.querySelector('a.change-name');
@@ -43,6 +43,9 @@ export class RoomSelectionModule implements UIModule {
             changeButton.removeEventListener('click', this.listeners.changeNameButton);
 
             form.addEventListener('submit', this.listeners.nameFormSubmit);
+
+            if(doFocus)
+                input.focus();
         };
         const showNameDisplay = (name: string) => {
             const input: HTMLInputElement = form.querySelector('input.name-input');
@@ -73,7 +76,7 @@ export class RoomSelectionModule implements UIModule {
 
             const name = this.manager.data.name;
 
-            showNameInput(name);
+            showNameInput(name, true);
         };
 
         if(this.manager.data.hasName()) {

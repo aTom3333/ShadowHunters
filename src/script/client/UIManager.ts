@@ -59,6 +59,10 @@ export class UIManager {
         switch (state) {
             case UIState.RoomSelection:
                 this.currentRoomName = '';
+                if(this.game) {
+                    this.game.destroy();
+                    this.game = null;
+                }
                 this.module = new RoomSelectionModule(this);
                 break;
             case UIState.BeforeGame:

@@ -1,15 +1,18 @@
 import {Board} from "../common/Game/Board";
 import {Character} from "../common/Game/Character";
+import {UIManager} from "./UIManager";
 
 
 export class GameManager {
     board: Board;
     selfId: number;
     socket;
+    ui: UIManager;
 
-    constructor(socket, dataReceived: any /* TODO Replace by the same type than server's Room::serializeState() */) {
+    constructor(socket, dataReceived: any /* TODO Replace by the same type than server's Room::serializeState() */, ui: UIManager) {
         this.socket = socket;
         this.selfId = null;
+        this.ui = ui;
         if(dataReceived.board !== null) {
             // Game has already started
             this.board = dataReceived.board;

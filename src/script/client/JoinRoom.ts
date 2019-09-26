@@ -24,12 +24,12 @@ export async function joinRoom(uimanager: UIManager, room: RoomSummary) {
 
         uimanager.data.roomName = room.name;
 
-        const newGame = new GameManager(socket, data);
+        const newGame = new GameManager(socket, data, uimanager);
 
         if(uimanager.game)
             uimanager.game.destroy();
         uimanager.game = newGame;
-        // TODO Link GameManager and UIManager
+
         // TODO Change state of UIManager depending of if game is started
         uimanager.switchTo(UIState.BeforeGame);
 
