@@ -24,7 +24,7 @@ export class GameManager {
         this.players = [];
 
         // TODO Get players from dataReceived
-        if(dataReceived.board !== null) {
+        if(dataReceived.board) {
             this.players = dataReceived.players.map(data => {
                 return {
                     name: data.name,

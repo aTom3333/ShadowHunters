@@ -5,6 +5,7 @@ import {SetupGameModule} from "./SetupGameModule";
 import {joinRoom} from "./JoinRoom";
 import {RoomState} from "../common/Protocol/RoomInterface";
 import {GameManager, Player} from "./GameManager";
+import {InGameModule} from "./InGameModule";
 
 
 export enum UIState {
@@ -68,6 +69,9 @@ export class UIManager {
             case UIState.BeforeGame:
                 this.module = new SetupGameModule(this);
                 break;
+            case UIState.InGame:
+                this.module = new InGameModule(this);
+                break;
         }
         this.module.initialize();
         this.state = state;
@@ -82,6 +86,7 @@ export class UIManager {
             const holder = popupBg.querySelector('.popup-holder');
 
             const closePopupFn = (result) => {
+                this.currentPopup.cleanup();
                 popupBg.style.display = 'none';
                 holder.innerHTML = '';
                 popupBg.removeEventListener('click', closeWithDefault);

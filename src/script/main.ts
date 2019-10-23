@@ -28,6 +28,4 @@ function makeAnswerChoiceRequest(socket) {
 }
 
 
-
-window['data'] = new Data();
-new UIManager(window['data']);
+new UIManager(new Data());

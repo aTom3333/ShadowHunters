@@ -38,7 +38,7 @@
                 </section>
             </main>
         </div>
-        <div class="setup" style="display: none;">
+        <div class="setup" style="display: none">
             <header>
                 <h1><img src="img/Shadow%20Hunters.png" alt="Shadow Hunters"></h1>
                 <div>
@@ -63,11 +63,101 @@
                 </section>
             </main>
         </div>
+        <div class="in-game" style="display: none">
+            <div class="player-list"></div>
+            <div class="board-container">
+                <div class="board">
+                    <div class="locations">
+                        <div class="location loc1 hauntedforest"></div>
+                        <div class="location loc2"></div>
+                        <div class="location loc3"></div>
+                        <div class="location loc4"></div>
+                        <div class="location loc5"></div>
+                        <div class="location loc6 hauntedforest"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="log"></div>
+            <div class="input"></div>
+        </div>
         <div class="popup-bg" style="display: none">
             <div class="popup-holder">
 
             </div>
         </div>
+        <svg width="0" height="0" style="position: absolute" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="blackspots">
+                    <feTurbulence type="fractalNoise"
+                                  baseFrequency=".3" numOctaves="4" stitchTiles="stitch"></feTurbulence>
+                    <feColorMatrix
+                            type="luminanceToAlpha"></feColorMatrix>
+                    <feComponentTransfer result="smallclouds">
+                        <feFuncR type="identity"></feFuncR>
+                        <feFuncG type="identity"></feFuncG>
+                        <feFuncB type="identity"></feFuncB>
+                        <feFuncA type="linear" slope="-2" intercept="1"></feFuncA>
+                    </feComponentTransfer>
+                    <feBlend in="SourceGraphic" in2="smallclouds" mode="normal"></feBlend>
+                </filter>
+            </defs>
+        </svg>
+        <svg width="0" height="0" style="position: absolute;" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="outline-2-48276b" filterUnits="userSpaceOnUse">
+                    <!--TODO Cleanup-->
+                    <!--<feComponentTransfer result="outline">-->
+                        <!--<feFuncR type="table" tableValues="1 1"></feFuncR>-->
+                        <!--<feFuncG type="table" tableValues="1 1"></feFuncG>-->
+                        <!--<feFuncB type="table" tableValues="1 1"></feFuncB>-->
+                        <!--<feFuncA type="identity"></feFuncA>-->
+                    <!--</feComponentTransfer>-->
+                    <!--<feGaussianBlur stdDeviation="1"></feGaussianBlur>-->
+                    <!--<feComponentTransfer result="whiteOutline">-->
+                        <!--<feFuncA type="linear" slope="2"></feFuncA>-->
+                    <!--</feComponentTransfer>-->
+                    <!--<feFlood flood-color="#48276b" flood-opacity="0"></feFlood>-->
+                    <!--<feBlend in="whiteOutline" mode="multiply"></feBlend>-->
+
+                    <feMorphology operator="dilate" radius="6"></feMorphology>
+                    <feGaussianBlur stdDeviation="1" result="outlineShape"></feGaussianBlur>
+                    <feFlood flood-color="#48276b" result="outlineColor"></feFlood>
+                    <feComposite in="outlineColor" in2="outlineShape" result="outline" operator="in"></feComposite>
+                    <!--<feBlend in="SourceGraphic" mode="normal"></feBlend>-->
+
+                    <feComponentTransfer in="SourceGraphic" result="darkText">
+                        <feFuncR type="linear" slope="0.5"></feFuncR>
+                        <feFuncG type="linear" slope="0.5"></feFuncG>
+                        <feFuncB type="linear" slope="0.5"></feFuncB>
+                    </feComponentTransfer>
+
+                    <feMorphology in="SourceGraphic" result="slimText" operator="erode" radius="2"></feMorphology>
+
+                    <feMerge>
+                        <feMergeNode in="outline"></feMergeNode>
+                        <feMergeNode in="darkText"></feMergeNode>
+                        <feMergeNode in="slimText"></feMergeNode>
+                    </feMerge>
+
+
+                    <!--<feBlend in="SourceGraphic" in2="outline" result="temp3" mode="normal"></feBlend>-->
+                </filter>
+            </defs>
+        </svg>
+        <!--Outline filter template-->
+        <template id="outline-filter-template">
+            <svg width="0" height="0" style="position: absolute;" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="">
+                        <feMorphology operator="dilate" radius=""></feMorphology>
+                        <feGaussianBlur stdDeviation="1" result="outlineShape"></feGaussianBlur>
+                        <feFlood flood-color="" result="outlineColor"></feFlood>
+                        <feComposite in="outlineColor" in2="outlineShape" result="outline" operator="in"></feComposite>
+                        <feBlend in="SourceGraphic" mode="normal"></feBlend>
+                    </filter>
+                </defs>
+            </svg>
+        </template>
         <script src="script/bundle.js"></script>
     </body>
 </html>

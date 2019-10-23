@@ -19,7 +19,7 @@ export async function joinRoom(uimanager: UIManager, room: RoomSummary) {
         // TODO Error
         uimanager.currentRoomName = '';
     } else {
-        const data = response.content;
+        const data: any = response.content; // TODO Change to correct type
         const socket = io();
 
         uimanager.data.roomName = room.name;
@@ -30,8 +30,10 @@ export async function joinRoom(uimanager: UIManager, room: RoomSummary) {
             uimanager.game.destroy();
         uimanager.game = newGame;
 
-        // TODO Change state of UIManager depending of if game is started
-        uimanager.switchTo(UIState.BeforeGame);
+        if(data.board)
+            uimanager.switchTo(UIState.InGame);
+        else
+            uimanager.switchTo(UIState.BeforeGame);
 
         // Let know the server this socket is ready to be used in the correct room
         socket.emit('request:joinroom', { room, name });

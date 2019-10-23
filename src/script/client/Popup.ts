@@ -18,4 +18,8 @@ export class Popup<T> {
     forceClose() {
         this.closePopup(this.cancelValue);
     }
+
+    cleanup() {
+
+    }
 }

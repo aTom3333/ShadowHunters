@@ -1,4 +1,5 @@
 import {Popup} from "./Popup";
+import {BackgroundedPopup} from "./BackgroundedPopup";
 
 
 
@@ -59,7 +60,7 @@ function extractForm(description: any, root: HTMLElement, data: Object) {
 }
 
 
-export class FormPopup<T> extends Popup<T> {
+export class FormPopup<T> extends BackgroundedPopup<T> {
     private form: HTMLFormElement;
     private description: any;
 
