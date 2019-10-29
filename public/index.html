@@ -140,7 +140,7 @@
         </svg>
         <svg width="0" height="0" style="position: absolute;" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <filter id="outline-2-48276b" filterUnits="userSpaceOnUse">
+                <filter id="outline-2-48276b">
                     <!--TODO Cleanup-->
                     <!--<feComponentTransfer result="outline">-->
                         <!--<feFuncR type="table" tableValues="1 1"></feFuncR>-->
@@ -155,7 +155,7 @@
                     <!--<feFlood flood-color="#48276b" flood-opacity="0"></feFlood>-->
                     <!--<feBlend in="whiteOutline" mode="multiply"></feBlend>-->
 
-                    <feMorphology operator="dilate" radius="6"></feMorphology>
+                    <feMorphology operator="dilate" radius="5"></feMorphology>
                     <feGaussianBlur stdDeviation="1" result="outlineShape"></feGaussianBlur>
                     <feFlood flood-color="#48276b" result="outlineColor"></feFlood>
                     <feComposite in="outlineColor" in2="outlineShape" result="outline" operator="in"></feComposite>
@@ -174,9 +174,6 @@
                         <feMergeNode in="darkText"></feMergeNode>
                         <feMergeNode in="slimText"></feMergeNode>
                     </feMerge>
-
-
-                    <!--<feBlend in="SourceGraphic" in2="outline" result="temp3" mode="normal"></feBlend>-->
                 </filter>
             </defs>
         </svg>
