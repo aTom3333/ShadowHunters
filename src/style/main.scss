@@ -1,3 +1,14 @@
+@font-face {
+  font-family: "Comic Neue Sans";
+  src: url("../font/ComicNeueSansID.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Oswald";
+  src: url("../font/OSWALD.otf") format("opentype");
+}
+
+
 html, body, .room-selection {
   width: 100%;
   padding: 0;
@@ -228,37 +239,18 @@ header {
             left: 10.2%;
             transform: rotate(250deg);
           }
-
-
-          &.hauntedforest {
-            background: url("../img/weirdwoods.jpg") no-repeat center;
-            background-size: cover;
-          }
         }
       }
     }
   }
 }
 
+.card-image {
+  border-radius: 4%;
+}
+
 .card-container {
   position: relative;
-
-  .card-image {
-    border-radius: 4%;
-  }
-
-  .card-description {
-    text-align: center;
-    position: absolute;
-    top: 60%;
-    width: 70%;
-    left: 15%;
-
-    .card-title {
-      font-size: 10%;
-      margin: 0;
-    }
-  }
 }
 
 svg {
@@ -267,12 +259,12 @@ svg {
     font-family: "Comic Neue Sans", arial, serif;
 
     &.card-title {
-      //filter: url('#blackspots');
+    }
+
+    &.numbers {
+      font-family: "Oswald", arial, serif;
+      font-weight: bold;
+      filter: url('#blackspots');
     }
   }
-}
-
-@font-face {
-  font-family: "Comic Neue Sans";
-  src: url("../font/ComicNeueSansID.ttf") format("truetype");
 }

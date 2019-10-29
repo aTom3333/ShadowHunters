@@ -68,12 +68,12 @@
             <div class="board-container">
                 <div class="board">
                     <div class="locations">
-                        <div class="location loc1 hauntedforest"></div>
+                        <div class="location loc1"></div>
                         <div class="location loc2"></div>
                         <div class="location loc3"></div>
                         <div class="location loc4"></div>
                         <div class="location loc5"></div>
-                        <div class="location loc6 hauntedforest"></div>
+                        <div class="location loc6"></div>
                     </div>
                 </div>
             </div>
@@ -89,16 +89,52 @@
             <defs>
                 <filter id="blackspots">
                     <feTurbulence type="fractalNoise"
-                                  baseFrequency=".3" numOctaves="4" stitchTiles="stitch"></feTurbulence>
+                                  baseFrequency=".05" numOctaves="4" stitchTiles="stitch"></feTurbulence>
                     <feColorMatrix
                             type="luminanceToAlpha"></feColorMatrix>
-                    <feComponentTransfer result="smallclouds">
+                    <feComponentTransfer>
                         <feFuncR type="identity"></feFuncR>
                         <feFuncG type="identity"></feFuncG>
                         <feFuncB type="identity"></feFuncB>
                         <feFuncA type="linear" slope="-2" intercept="1"></feFuncA>
                     </feComponentTransfer>
-                    <feBlend in="SourceGraphic" in2="smallclouds" mode="normal"></feBlend>
+                    <feComponentTransfer result="smallclouds">
+                        <feFuncR type="identity"></feFuncR>
+                        <feFuncG type="identity"></feFuncG>
+                        <feFuncB type="identity"></feFuncB>
+                        <feFuncA type="linear" slope="2"></feFuncA>
+                    </feComponentTransfer>
+                    <feComposite in2="SourceGraphic" in="smallclouds" result="limitedClouds" operator="in"></feComposite>
+
+
+                    <feMorphology in="SourceGraphic" operator="dilate" radius="2"></feMorphology>
+                    <feGaussianBlur stdDeviation="1" result="outlineShape"></feGaussianBlur>
+                    <feFlood flood-color="#000000" result="outlineColor"></feFlood>
+                    <feComposite in="outlineColor" in2="outlineShape" result="outline" operator="in"></feComposite>
+
+
+                    <feComponentTransfer in="SourceGraphic" result="darkText">
+                        <feFuncR type="linear" slope="0.5"></feFuncR>
+                        <feFuncG type="linear" slope="0.5"></feFuncG>
+                        <feFuncB type="linear" slope="0.5"></feFuncB>
+                    </feComponentTransfer>
+
+
+                    <feMorphology in="SourceGraphic" result="slimText" operator="erode" radius="2"></feMorphology>
+
+
+                    <feMerge>
+                        <feMergeNode in="darkText"></feMergeNode>
+                        <feMergeNode in="slimText"></feMergeNode>
+                    </feMerge>
+                    <feGaussianBlur stdDeviation="1" result="smoothedText"></feGaussianBlur>
+
+
+                    <feMerge>
+                        <feMergeNode in="outline"></feMergeNode>
+                        <feMergeNode in="smoothedText"></feMergeNode>
+                        <feMergeNode in="limitedClouds"></feMergeNode>
+                    </feMerge>
                 </filter>
             </defs>
         </svg>
