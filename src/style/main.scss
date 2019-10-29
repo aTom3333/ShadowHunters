@@ -241,6 +241,14 @@ header {
           }
         }
       }
+
+      .pawn {
+        position: absolute;
+        width: 0;
+        height: 0;
+        padding: 1.5%;
+        filter: url('#blackspots');
+      }
     }
   }
 }

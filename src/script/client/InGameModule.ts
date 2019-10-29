@@ -1,12 +1,16 @@
 import {UIManager, UIModule} from "./UIManager";
 import {LocationPopup} from "./LocationPopup";
 import {SVGGenerator} from "./SVGGenerator";
+import {getCssColor, PawnArea} from "./PawnArea";
+import {crel, random} from "./Utilities";
+import {PawnColor} from "../common/Game/CharacterState";
 
 
 export class InGameModule implements UIModule {
     manager: UIManager;
     rootElem: HTMLElement;
     listeners: {[key: string]: EventListenerOrEventListenerObject};
+    static healthPawnAreas: Array<PawnArea>;
 
     constructor(manager: UIManager) {
         this.manager = manager;
@@ -16,7 +20,25 @@ export class InGameModule implements UIModule {
 
     initialize(): void {
         this.initializeBoard();
+        this.manager.game.players.forEach(p => {
+            //const locIdx = this.manager.game.board.locations.indexOf(p.character.location);
+            InGameModule.healthPawnAreas[p.character.lostHp].add(p.character.pawnColor);
+        });
 
+        InGameModule.healthPawnAreas.forEach(area => {
+            area.pawns.forEach(p => {
+                this.rootElem.querySelector('.board').append(crel.div({
+                    'class': 'pawn',
+                    style: {
+                        top: (100-p.coord.y) + '%',
+                        left: p.coord.x + '%',
+                        transform: 'translate(-50%, -50%) rotate(' + random(0, 360) + 'deg)',
+                        'background-color': getCssColor(p.color)
+                    }
+                }));
+                console.log('ajout pion');
+            });
+        });
 
         this.rootElem.style.display = 'grid';
     }
@@ -75,3 +97,26 @@ export class InGameModule implements UIModule {
     }
 
 }
+
+InGameModule.healthPawnAreas = [
+    new PawnArea([
+        { x: 22.96098687568321, y: 19.62174795924966 },
+        { x: 7.003540498894753, y: 12.529549249771677 },
+        { x: 8.776590096315692, y: 3.073284303801046 },
+        { x: 29.60992286601174, y: 9.869974733717441 }
+    ]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+    new PawnArea([]),
+];

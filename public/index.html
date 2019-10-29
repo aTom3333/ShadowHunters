@@ -185,9 +185,9 @@
             <svg width="0" height="0" style="position: absolute;" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <filter id="">
-                        <feMorphology operator="dilate" radius=""></feMorphology>
+                        <feMorphology operator="dilate" radius="1"></feMorphology>
                         <feGaussianBlur stdDeviation="1" result="outlineShape"></feGaussianBlur>
-                        <feFlood flood-color="" result="outlineColor"></feFlood>
+                        <feFlood flood-color="#000000" result="outlineColor"></feFlood>
                         <feComposite in="outlineColor" in2="outlineShape" result="outline" operator="in"></feComposite>
                         <feBlend in="SourceGraphic" mode="normal"></feBlend>
                     </filter>

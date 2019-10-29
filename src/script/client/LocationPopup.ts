@@ -1,16 +1,9 @@
 import {Popup} from "./Popup";
 import {Location} from "../common/Game/CharacterState";
-import * as crelLib from "crel";
 import {SVGGenerator} from "./SVGGenerator";
+import {crel} from "./Utilities";
 
-const crel = crelLib.proxy;
-crelLib.attrMap['style'] = (element, value) => {
-    for (const property in value) {
-        if(value.hasOwnProperty(property)) {
-            element.style[property] = value[property];
-        }
-    }
-};
+
 
 
 export class LocationPopup<T> extends Popup<T> {
