@@ -2,6 +2,7 @@ import {Quadgon} from "./geometry/Quadgon";
 import {Point, PointLike} from "./geometry/Point";
 import {norm, sub} from "./geometry/VectorOps";
 import {PawnColor} from "../common/Game/CharacterState";
+import {crel, random} from "./Utilities";
 
 
 export function getCssColor(c: PawnColor): string {
@@ -20,20 +21,68 @@ export function getCssColor(c: PawnColor): string {
             return '#f2f2f2';
         case PawnColor.Yellow:
             return '#e8d500';
+        case PawnColor.Orange:
+            return '#e85400';
     }
 }
 
 export class Pawn {
     coord: Point;
     color: PawnColor;
+    area: PawnArea;
+    visual: HTMLElement;
 
-    constructor(coord: Point, color: PawnColor) {
-        this.coord = coord;
+    constructor(color: PawnColor) {
         this.color = color;
+        this.coord = null;
+        this.area = null;
     }
 
     collidesWith(other: Pawn) {
-        return norm(sub(other.coord, this.coord)) < 5; // TODO Set correct value
+        return norm(sub(other.coord, this.coord)) < 4.5;
+    }
+
+    setCoord(coord: Point) {
+        this.coord = coord;
+        if(this.visual) {
+            this.visual.style.top = `${100-this.coord.y}%`;
+            this.visual.style.left = `${this.coord.x}%`;
+        }
+    }
+
+    show(root: HTMLElement) {
+        if(!this.visual) {
+            this.visual = crel.div({
+                'class': 'pawn',
+                style: {
+                    top: (100-this.coord.y) + '%',
+                    left: this.coord.x + '%',
+                    transform: 'translate(-50%, -50%) rotate(' + random(0, 360) + 'deg)',
+                    'background-color': getCssColor(this.color)
+                }
+            });
+            root.append(this.visual)
+        }
+    }
+
+    changeRotation() {
+        if(this.visual)
+            this.visual.style.transform = 'translate(-50%, -50%) rotate(' + random(0, 360) + 'deg)';
+    }
+
+    hide() {
+        if(this.visual) {
+            this.visual.remove();
+            this.visual = null;
+        }
+    }
+
+    moveTo(area: PawnArea) {
+        if(area === this.area)
+            return;
+        if(this.area)
+            this.area.remove(this);
+        area.add(this);
     }
 }
 
@@ -46,25 +95,34 @@ export class PawnArea {
         this.pawns = [];
     }
 
-    add(color: PawnColor) {
+    add(pawn: Pawn) {
+        if(pawn.area && pawn.area !== this)
+            pawn.area.remove(pawn);
         const maxTries = 10;
+        const dummy = new Pawn( pawn.color);
         for(let i = 0; i < maxTries; i++) {
-            const newPawn = new Pawn(this.area.randomPointInside(), color);
-            if(!this.pawns.map(p => p.collidesWith(newPawn)).reduce((a,b) => a||b, false)) {
-                this.pawns.push(newPawn);
-                return;
+            dummy.coord = this.area.randomPointInside();
+            if(!this.pawns.map(p => p.collidesWith(dummy)).reduce((a,b) => a||b, false)) {
+                break;
             }
         }
-        this.pawns.push(new Pawn(this.area.randomPointInside(), color));
+        pawn.area = this;
+        pawn.setCoord(dummy.coord);
+        pawn.changeRotation();
+        this.pawns.push(pawn);
     }
 
-    remove(color: PawnColor) {
-        const index = this.pawns.findIndex(p => p.color == color);
-        if(index !== -1)
+    remove(pawn: Pawn) {
+        const index = this.pawns.indexOf(pawn);
+        if(index !== -1) {
             this.pawns.splice(index, 1);
+            pawn.area = null;
+            pawn.coord = null;
+        }
     }
 
     clear() {
-        this.pawns = [];
+        while(this.pawns.length)
+            this.remove(this.pawns[0]);
     }
 }

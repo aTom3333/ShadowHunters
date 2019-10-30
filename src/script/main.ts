@@ -27,5 +27,5 @@ function makeAnswerChoiceRequest(socket) {
     }
 }
 
-
-new UIManager(new Data());
+// Make everything accessible from console for now
+(window as any).ui = new UIManager(new Data());

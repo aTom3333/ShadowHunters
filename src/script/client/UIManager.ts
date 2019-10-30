@@ -52,7 +52,6 @@ export class UIManager {
     switchTo(state: UIState) {
         if(state === UIState.RoomSelection && this.state === UIState.RoomSelection)
             return;
-        console.log('swith to '+state.toString());
         if(this.currentPopup)
             this.currentPopup.forceClose();
         if(this.module)
@@ -121,13 +120,20 @@ export class UIManager {
     }
 
     error(error: any) {
-        console.log(error);
+        console.error(error);
+        console.trace();
         // TODO Implement
     }
 
     log(info: any) {
         console.log(info);
         // TODO Implement
+    }
+
+    queue(work: any) { // TODO Correct type
+        if(this.state === UIState.InGame) {
+            (this.module as InGameModule).animQueue.add(work);
+        }
     }
 
     updatePlayerList(players: Array<Player>) {

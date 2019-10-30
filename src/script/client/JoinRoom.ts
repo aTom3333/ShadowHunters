@@ -1,7 +1,7 @@
 import RoomApi from "./RoomApi";
 import {StatusType} from "../common/Protocol/JsonResponse";
 import {UIManager, UIState} from "./UIManager";
-import {RoomSummary} from "../common/Protocol/RoomInterface";
+import {FullRoom, RoomSummary} from "../common/Protocol/RoomInterface";
 import * as io from 'socket.io-client';
 import {GameManager} from "./GameManager";
 import waitFor from "../common/Utility/waitForSocket";
@@ -13,13 +13,14 @@ export async function joinRoom(uimanager: UIManager, room: RoomSummary) {
     uimanager.currentRoomName = room.name;
 
     const name = uimanager.data.name;
-    console.log('Join Room '+room.name+' as '+name);
     const response = await RoomApi.join(room, name);
     if(response.status.type !== StatusType.success) {
         // TODO Error
         uimanager.currentRoomName = '';
+        uimanager.data.roomName = '';
+        uimanager.switchTo(UIState.RoomSelection);
     } else {
-        const data: any = response.content; // TODO Change to correct type
+        const data: FullRoom = response.content;
         const socket = io();
 
         uimanager.data.roomName = room.name;

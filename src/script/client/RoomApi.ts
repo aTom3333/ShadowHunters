@@ -1,5 +1,5 @@
 import JsonResponse from "../common/Protocol/JsonResponse";
-import {RoomSummary} from "../common/Protocol/RoomInterface";
+import {FullRoom, RoomSummary} from "../common/Protocol/RoomInterface";
 
 export default class RoomApi {
 
@@ -39,7 +39,7 @@ export default class RoomApi {
      * @param room The room to join
      * @param name The username
      */
-    static async join(room, name: string): Promise<JsonResponse<void>> { // TODO add Room type
+    static async join(room, name: string): Promise<JsonResponse<FullRoom>> {
         const response = await fetch('http://shadowhunter/api/join', {
             method: 'post',
             headers: {
