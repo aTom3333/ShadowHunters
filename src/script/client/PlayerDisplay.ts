@@ -9,17 +9,27 @@ export class PlayerDisplay {
     module: InGameModule;
     character: CharacterState;
     name: string;
-    root: HTMLElement;
+    pawnRoot: HTMLElement;
+    listeners: {[key: string]: EventListenerOrEventListenerObject};
 
-    constructor(name: string, character: CharacterState, module: InGameModule, root: HTMLElement) {
+    constructor(name: string, character: CharacterState, module: InGameModule, pawnRoot: HTMLElement) {
         this.name = name;
         this.character = character;
         this.module = module;
-        this.root = root;
+        this.pawnRoot = pawnRoot;
         this.healthPawn = new Pawn(this.character.pawnColor);
         this.locationPawn = new Pawn(this.character.pawnColor);
+        this.listeners = {
+            startHover: () => {
+                this.startHover();
+            },
+            endHover: () => {
+                this.endHover();
+            }
+        };
 
         this.updateLocation();
+        this.updateHP();
     }
 
     updateLocation() {
@@ -28,19 +38,53 @@ export class PlayerDisplay {
             const locIdx = this.module.manager.game.board.locations.findIndex(l => l.name === this.character.location.name);
             if (locIdx !== -1) {
                 this.locationPawn.moveTo(InGameModule.locationPawnAreas[locIdx]);
-                this.locationPawn.show(this.root);
+                this.showPawn(this.locationPawn);
             }
         } else {
             // Put in middle
             this.locationPawn.moveTo(InGameModule.middleArea);
-            this.locationPawn.show(this.root);
+            this.showPawn(this.locationPawn);
         }
     }
 
-    cleanup() {
-        this.locationPawn.hide();
-        this.healthPawn.hide();
+    updateHP() {
+        if(this.character.dead) {
+            // Put in middle
+            this.healthPawn.moveTo(InGameModule.middleArea);
+            this.showPawn(this.healthPawn);
+        } else {
+            this.healthPawn.moveTo(InGameModule.healthPawnAreas[this.character.lostHp]);
+            this.showPawn(this.healthPawn);
+        }
     }
 
-    //changeHP()
+    private showPawn(pawn: Pawn) {
+        if(pawn.show(this.pawnRoot)) {
+            pawn.visual.addEventListener('mouseenter', this.listeners.startHover);
+            pawn.visual.addEventListener('mouseleave', this.listeners.endHover);
+        }
+    }
+
+    private hidePawn(pawn: Pawn) {
+        if(pawn.visual) {
+            pawn.visual.removeEventListener('mouseenter', this.listeners.startHover);
+            pawn.visual.removeEventListener('mouseleave', this.listeners.endHover);
+        }
+        pawn.hide();
+    }
+
+    cleanup() {
+        this.hidePawn(this.locationPawn);
+        this.hidePawn(this.healthPawn);
+    }
+
+    startHover() {
+        this.healthPawn.startHover();
+        this.locationPawn.startHover();
+    }
+
+    endHover() {
+        this.healthPawn.endHover();
+        this.locationPawn.endHover();
+    }
 }

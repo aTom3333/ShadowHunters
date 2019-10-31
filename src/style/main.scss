@@ -246,10 +246,33 @@ header {
         position: absolute;
         width: 0;
         height: 0;
-        padding: 1.5%;
-        filter: url('#blackspots');
         transition: top 1s, left 1s, transform 1s;
+        padding: 1.5%;
+
+        & > div {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          filter: url('#blackspots');
+        }
+
+        &.hover {
+          box-shadow: currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px;
+        }
       }
+    }
+  }
+
+  .log {
+    background: gray;
+    overflow-y: scroll;
+    overflow-wrap: anywhere;
+    padding: 10px;
+
+    .log-entry {
+      line-height: 22px;
     }
   }
 }

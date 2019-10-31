@@ -6,6 +6,7 @@ import {joinRoom} from "./JoinRoom";
 import {RoomState} from "../common/Protocol/RoomInterface";
 import {GameManager, Player} from "./GameManager";
 import {InGameModule} from "./InGameModule";
+import {ConsoleLogger, Logger} from "./Logger";
 
 
 export enum UIState {
@@ -26,12 +27,14 @@ export class UIManager {
     private currentPopup: Popup<any>;
     game: GameManager;
     currentRoomName: string;
+    logger: Logger;
 
     constructor(data: Data) {
         this.data = data;
         this.game = null;
         this.currentPopup = null;
         this.currentRoomName = '';
+        this.logger = new ConsoleLogger();
 
         if(data.hasName() && data.hasRoomName()) {
             joinRoom(this, { name: data.roomName, state: RoomState.Setup, noplayers: 0});
@@ -125,9 +128,10 @@ export class UIManager {
         // TODO Implement
     }
 
-    log(info: any) {
-        console.log(info);
-        // TODO Implement
+    log(format: string, ...args: Array<any>) {
+        this.logger.log(format, ...args);
+        if(this.state === UIState.InGame)
+            (this.module as InGameModule).logger.log(format, ...args);
     }
 
     queue(work: any) { // TODO Correct type

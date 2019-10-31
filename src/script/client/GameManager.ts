@@ -107,12 +107,12 @@ export class GameManager {
         });
 
         this.socket.on(Dice.D4.stub, (dice: Dice4) => {
-            this.ui.log('{0} lance un dé');
+            this.ui.log('{0} lance un dé', dice.player);
             this.ui.queue({ execute() { console.log(dice.value); } });
         });
 
         this.socket.on(Dice.D4.stub, (dice: Dice6) => {
-            this.ui.log('{0} lance un dé');
+            this.ui.log('{0} lance un dé', dice.player);
             this.ui.queue({ execute() { console.log(dice.value); } });
         });
 
@@ -121,7 +121,7 @@ export class GameManager {
         });
 
         this.socket.on(Dice.Sub.stub, (dice: SubtractDices) => {
-            this.ui.log('{0} lance des dés');
+            this.ui.log('{0} lance des dés', dice.player);
             this.ui.queue({ execute() { console.log(Math.abs(dice.d4.value - dice.d6.value)); } });
         });
 

@@ -58,11 +58,19 @@ export class Pawn {
                     top: (100-this.coord.y) + '%',
                     left: this.coord.x + '%',
                     transform: 'translate(-50%, -50%) rotate(' + random(0, 360) + 'deg)',
-                    'background-color': getCssColor(this.color)
+
+                    color: getCssColor(this.color)
+                },
+
+            }, crel.div({
+                style: {
+                    'background-color': getCssColor(this.color),
                 }
-            });
-            root.append(this.visual)
+            }));
+            root.append(this.visual);
+            return true;
         }
+        return false;
     }
 
     changeRotation() {
@@ -83,6 +91,16 @@ export class Pawn {
         if(this.area)
             this.area.remove(this);
         area.add(this);
+    }
+
+    startHover() {
+        if(this.visual)
+            this.visual.classList.add('hover');
+    }
+
+    endHover() {
+        if(this.visual)
+            this.visual.classList.remove('hover');
     }
 }
 

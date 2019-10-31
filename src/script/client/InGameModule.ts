@@ -6,6 +6,7 @@ import {crel, random} from "./Utilities";
 import {PawnColor} from "../common/Game/CharacterState";
 import {PlayerDisplay} from "./PlayerDisplay";
 import {AnimationQueue} from "./AnimationQueue";
+import {PrettyLogger} from "./PrettyLogger";
 
 
 export class InGameModule implements UIModule {
@@ -14,6 +15,7 @@ export class InGameModule implements UIModule {
     listeners: {[key: string]: EventListenerOrEventListenerObject};
     playerDisplays: Array<PlayerDisplay>;
     animQueue: AnimationQueue;
+    logger: PrettyLogger;
 
     static healthPawnAreas: Array<PawnArea>;
     static locationPawnAreas: Array<PawnArea>;
@@ -25,6 +27,7 @@ export class InGameModule implements UIModule {
         this.listeners = {};
         this.createPlayerDisplays();
         this.animQueue = new AnimationQueue();
+        this.logger = new PrettyLogger(this);
     }
 
     createPlayerDisplays() {

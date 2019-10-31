@@ -15,7 +15,7 @@ export class MovementAnimation implements Animation {
     }
 
     async execute() {
-        this.manager.log('{0} se déplace à {1}');
+        this.manager.log('{0:player} se déplace à {1:location}', this.player, this.player.character.location);
         const character = this.manager.game.board.states.find(s => s.id === this.player.character.id);
         const location = this.manager.game.board.locations.find(l => l.name === this.player.character.location.name);
         character.location = location;

@@ -3,7 +3,7 @@ import * as crelLib from "crel";
 
 export function random(min: number, max: number) {
     if(min === undefined)
-        return Math.random()
+        return Math.random();
     if(max === undefined)
         return random(0, min);
     return Math.floor(Math.random() * (max-min)) + min;

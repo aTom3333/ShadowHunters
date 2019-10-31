@@ -16,15 +16,15 @@ abstract class DiceAnimationBase implements Animation {
     }
 
     async execute() {
-        this.manager.log('{0} fait un lancé de dés');
+        //this.manager.log('{0:player} fait un lancé de dés', this.dice.player);
 
         await sleep(1000); // TODO Super animation
 
-        this.manager.log('{0} a fait {1}');
-        console.log(this.dice.player.name, this.diceValue());
+        this.manager.log(`{0:player} lance des dés : {1} (${this.diceString()})`, this.dice.player, this.diceValue());
     }
 
     abstract diceValue(): number
+    abstract diceString(): string
 }
 
 export class DiceAnimationAdd extends DiceAnimationBase {
@@ -36,5 +36,9 @@ export class DiceAnimationAdd extends DiceAnimationBase {
     diceValue() {
         const dice = this.dice as AddDices;
         return dice.d4.value + dice.d6.value;
+    }
+
+    diceString() {
+        return 'd4+d6';
     }
 }
