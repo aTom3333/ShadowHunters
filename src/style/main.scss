@@ -207,8 +207,8 @@ header {
           box-shadow: 0 0 2px black;
           cursor: pointer;
 
-          &:hover {
-            box-shadow: 0 0 5px black;
+          &:hover, &.hover {
+            box-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black, 0 0 5px black;
           }
 
           &.loc1 {

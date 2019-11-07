@@ -16,3 +16,11 @@ export function norm(v: Point) {
 export function dot(a: Point, b: Point) {
     return a.x*b.x + a.y*b.y;
 }
+
+export function mul(v: Point, s: number) {
+    return new Point(v.x * s, v.y * s);
+}
+
+export function div(v: Point, s: number) {
+    return mul(v, 1/s);
+}

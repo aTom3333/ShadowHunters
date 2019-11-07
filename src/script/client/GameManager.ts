@@ -1,13 +1,18 @@
-import {Board} from "../common/Game/Board";
+import {Board, TurnStep} from "../common/Game/Board";
 import {UIManager, UIState} from "./UIManager";
-import {CharacterState} from "../common/Game/CharacterState";
-import {Dice, Update} from "../common/Protocol/SocketIOEvents";
+import {Card, CardColor, CharacterState, Equipment} from "../common/Game/CharacterState";
+import {Debug, Dice, Request, Update} from "../common/Protocol/SocketIOEvents";
 import {FullRoom} from "../common/Protocol/RoomInterface";
 import {AddDices, Dice4, Dice6, SubtractDices} from "../common/Event/DiceResult";
 import {PlayerInterface} from "../common/Protocol/PlayerInterface";
-import {InGameModule} from "./InGameModule";
 import {MovementAnimation} from "./Animations/MovementAnimation";
-import {DiceAnimationAdd} from "./Animations/DiceAnimation";
+import {DiceAnimation4, DiceAnimation6, DiceAnimationAdd, DiceAnimationSub} from "./Animations/DiceAnimation";
+import {ChoiceInterface} from "../common/Protocol/ChoiceInterface";
+import {ChoiceAnimation} from "./Animations/ChoiceAnimation";
+import {getDifference} from "../common/Utility/Compare";
+import {AttackAnimation} from "./Animations/AttackAnimation";
+import {InGameModule} from "./InGameModule";
+import {sleep} from "./Utilities";
 
 
 export class Player {
@@ -106,14 +111,13 @@ export class GameManager {
             this.ui.updatePlayerList(this.players);
         });
 
+        // TODO Correct events
         this.socket.on(Dice.D4.stub, (dice: Dice4) => {
-            this.ui.log('{0} lance un dé', dice.player);
-            this.ui.queue({ execute() { console.log(dice.value); } });
+            this.ui.queue(new DiceAnimation4(dice, this.ui));
         });
 
         this.socket.on(Dice.D4.stub, (dice: Dice6) => {
-            this.ui.log('{0} lance un dé', dice.player);
-            this.ui.queue({ execute() { console.log(dice.value); } });
+            this.ui.queue(new DiceAnimation6(dice, this.ui));
         });
 
         this.socket.on(Dice.Add.stub, (dice: AddDices) => {
@@ -121,13 +125,108 @@ export class GameManager {
         });
 
         this.socket.on(Dice.Sub.stub, (dice: SubtractDices) => {
-            this.ui.log('{0} lance des dés', dice.player);
-            this.ui.queue({ execute() { console.log(Math.abs(dice.d4.value - dice.d6.value)); } });
+            this.ui.queue(new DiceAnimationSub(dice, this.ui));
         });
 
         this.socket.on(Update.Movement.stub, (player: PlayerInterface) => {
             this.ui.queue(new MovementAnimation(player, this.ui));
         });
+
+        this.socket.on(Request.Choice.stub, (choice: ChoiceInterface) => {
+            this.ui.queue(new ChoiceAnimation(choice, this.ui));
+        });
+
+        this.socket.on(Update.TurnStart.stub, (player: string) => {
+            this.ui.queue({ execute: () => {
+                    const charId = this.ui.game.players.find(p => p.name === player).character.id;
+                    this.ui.game.board.currentCharacterId = charId;
+                    this.ui.log('Au tour de {0:player}', {name: player});
+                }});
+        });
+
+        this.socket.on(Update.DrawCard.stub, (info: {card: Card, player: PlayerInterface}) => {
+            this.ui.queue({ execute: async () => {
+                switch(info.card.color) {
+                    case CardColor.Green:
+                        this.ui.log('{0:player} tire une carte Vision', info.player);
+                        this.ui.game.board.greenDeck.numberLeft--;
+                        break;
+
+                    case CardColor.Black:
+                        this.ui.log('{0:player} tire une carte {1} : {2}', info.player, 'Ténèbre', info.card.name);
+                        this.ui.game.board.blackDeck.numberLeft--;
+                        // TODO Afficher carte
+                        break;
+
+                    case CardColor.White:
+                        this.ui.log('{0:player} tire une carte {1} : {2}', info.player, 'Lumière', info.card.name);
+                        this.ui.game.board.whiteDeck.numberLeft--;
+                        // TODO Afficher carte
+                        break;
+                }
+            }});
+        });
+
+        this.socket.on(Update.Equip.stub, (info: {player: PlayerInterface, equipment: Equipment}) => {
+            this.ui.queue({ execute: () => {
+                this.ui.log('{0:player} équipe {1}', info.player, info.equipment.name);
+                this.ui.game.board.states.find(c => c.id === info.player.character.id).equipment.push(info.equipment);
+            }});
+        });
+
+        this.socket.on(Update.Attack.stub, (info: {attacker: PlayerInterface, target: PlayerInterface, type: string}) => {
+            this.ui.queue(new AttackAnimation(info, this.ui));
+        });
+
+        this.socket.on(Update.ChangeHP.stub, (info: {player: PlayerInterface, type: string, amount: number}) => {
+            this.ui.queue({
+                execute: async () => {
+                    switch (info.type) {
+                        case '-':
+                            this.ui.log('{0:player} a perdu {1} PV', info.player, info.amount);
+                            this.ui.game.board.states.find(c => c.id === info.player.character.id).lostHp += info.amount;
+                            break; // TODO - et =
+                    }
+                    (this.ui.module as InGameModule).playerDisplays.find(pd => pd.character.id === info.player.character.id).updateHP();
+                    await sleep(1000);
+                }
+            })
+        });
+
+        this.socket.on(Update.UsePower.stub, (player: PlayerInterface) => {
+            this.ui.queue({
+                execute: () => {
+                    this.ui.log('{0:player} utilise son pouvoir', player);
+                    this.board.states.find(c => c.id === player.character.id).powerUsed = true;
+                }
+            });
+        });
+
+        this.socket.on(Update.Dead.stub, (info: {target: PlayerInterface, killer: PlayerInterface}) => {
+            this.ui.queue({
+                execute: async () => {
+                    this.ui.log('{0:player} est mort', info.target);
+                    const chara = this.board.states.find(c => c.id === info.target.character.id);
+                    chara.dead = true;
+                    chara.killerId = info.killer.character.id;
+                    (this.ui.module as InGameModule).playerDisplays.find(pd => pd.character.id === info.target.character.id).updateHP();
+                    await sleep(1000);
+                }
+            });
+        });
+
+
+
+        this.socket.on(Debug.CheckState.stub, (room: FullRoom) => {
+            this.ui.queue({ execute: () => {
+                const res = getDifference(this.ui.game.board, room.board);
+                if(res !== null) {
+                    this.ui.error('Difference in board'+res.join(''));
+                    console.log('client: ', this.ui.game.board);
+                    console.log('server: ', room.board);
+                }
+            }});
+        })
     }
 
     private addCharacterData(data: any) {

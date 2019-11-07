@@ -7,6 +7,7 @@ import {RoomState} from "../common/Protocol/RoomInterface";
 import {GameManager, Player} from "./GameManager";
 import {InGameModule} from "./InGameModule";
 import {ConsoleLogger, Logger} from "./Logger";
+import {ChoiceInterface} from "../common/Protocol/ChoiceInterface";
 
 
 export enum UIState {
@@ -132,6 +133,11 @@ export class UIManager {
         this.logger.log(format, ...args);
         if(this.state === UIState.InGame)
             (this.module as InGameModule).logger.log(format, ...args);
+    }
+
+    async choose(choice: ChoiceInterface) {
+        if(this.state === UIState.InGame)
+            await (this.module as InGameModule).choose(choice);
     }
 
     queue(work: any) { // TODO Correct type

@@ -53,7 +53,7 @@ export class PlayerDisplay {
             this.healthPawn.moveTo(InGameModule.middleArea);
             this.showPawn(this.healthPawn);
         } else {
-            this.healthPawn.moveTo(InGameModule.healthPawnAreas[this.character.lostHp]);
+            this.healthPawn.moveTo(InGameModule.healthPawnAreas[Math.min(this.character.lostHp, 14)]);
             this.showPawn(this.healthPawn);
         }
     }
