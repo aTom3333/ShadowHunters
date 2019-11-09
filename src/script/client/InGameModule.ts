@@ -105,6 +105,8 @@ export class InGameModule implements UIModule {
         });
 
         this.playerDisplays.forEach(pd => pd.cleanup());
+        this.logger.cleanup();
+        this.chooser.cleanup();
     }
 
     async choose(choice: ChoiceInterface) {
@@ -113,7 +115,6 @@ export class InGameModule implements UIModule {
 
 }
 
-// TODO Better polygons
 InGameModule.healthPawnAreas = [
     new PawnArea([
         { x: 24.619910530442674, y: 18.51489618087642 },
@@ -209,7 +210,6 @@ InGameModule.healthPawnAreas = [
     ])
 ];
 
-// TODO Better polygons
 InGameModule.locationPawnAreas = [
     new PawnArea([
         { x: 59.96566728445458, y: 91.14642799060547 },

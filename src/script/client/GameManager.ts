@@ -13,6 +13,7 @@ import {getDifference} from "../common/Utility/Compare";
 import {AttackAnimation} from "./Animations/AttackAnimation";
 import {InGameModule} from "./InGameModule";
 import {sleep} from "./Utilities";
+import {GameOverAnimation} from "./Animations/GameOverAnimation";
 
 
 export class Player {
@@ -49,6 +50,10 @@ export class GameManager {
                 this.addCharacterData(identity);
                 console.log('I am ');
                 console.log(this.board.states.find(c => c.id === this.selfId));
+
+                if(dataReceived.winners !== null) {
+                    this.ui.queue(new GameOverAnimation(dataReceived, this.ui));
+                }
             });
         } else {
             this.players = dataReceived.players.map(data => {
@@ -213,6 +218,10 @@ export class GameManager {
                     await sleep(1000);
                 }
             });
+        });
+
+        this.socket.on(Update.GameOver.stub, (room: FullRoom) => {
+            this.ui.queue(new GameOverAnimation(room, this.ui));
         });
 
 
