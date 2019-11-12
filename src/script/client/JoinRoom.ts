@@ -21,7 +21,9 @@ export async function joinRoom(uimanager: UIManager, room: RoomSummary) {
         uimanager.switchTo(UIState.RoomSelection);
     } else {
         const data: FullRoom = response.content;
-        const socket = io();
+        const path = window.location.pathname.replace(/\/[^/]*$/, '/socket.io/');
+        console.log(path); // TODO Remove
+        const socket = io({ path });
 
         uimanager.data.roomName = room.name;
 
