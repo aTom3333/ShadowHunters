@@ -30,7 +30,7 @@ export class SVGGenerator {
     private static locationNameToImageUrl(locationName: string) {
         switch (locationName) {
             case 'Forêt hantée':
-                return window.location.origin + '/img/weirdwoods2.jpg';
+                return 'img/weirdwoods2.jpg';
             default:
                 return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII='
         }
@@ -90,25 +90,25 @@ export class SVGGenerator {
     private static characterNameToImageUrl(name: string) {
         switch (name) {
             case 'Franklin':
-                return window.location.origin + '/img/franklin.png';
+                return 'img/franklin.png';
             case 'Emi':
-                return window.location.origin + '/img/emi.png';
+                return 'img/emi.png';
             case 'Georges':
-                return window.location.origin + '/img/georges.png';
+                return 'img/georges.png';
             case 'Vampire':
-                return window.location.origin + '/img/vampire.png';
+                return 'img/vampire.png';
             case 'Loup-garou':
-                return window.location.origin + '/img/loup-garou.png';
+                return 'img/loup-garou.png';
             case 'Métamorphe':
-                return window.location.origin + '/img/metamorph.png';
+                return 'img/metamorph.png';
             case 'Allie':
-                return window.location.origin + '/img/allie.png';
+                return 'img/allie.png';
             case 'Bob':
-                return window.location.origin + '/img/bob.png';
+                return 'img/bob.png';
             case 'Charles':
-                return window.location.origin + '/img/charles.png';
+                return 'img/charles.png';
             case 'Daniel':
-                return window.location.origin + '/img/daniel.png';
+                return 'img/daniel.png';
             default:
                 return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=';
         }
