@@ -47,7 +47,7 @@ export class GameManager {
             this.board = dataReceived.board;
             this.socket.once(Update.OwnIdentity.stub, (identity: any) => {
                 this.selfId = identity.id;
-                this.addCharacterData(identity);
+                this.addCharacterData(identity, true);
                 console.log('I am ');
                 console.log(this.board.states.find(c => c.id === this.selfId));
 
@@ -74,7 +74,7 @@ export class GameManager {
                 this.self = this.players.find(p => p.name === this.ui.data.name);
                 this.socket.once(Update.OwnIdentity.stub, (identity: CharacterState) => {
                     this.selfId = identity.id;
-                    this.addCharacterData(identity);
+                    this.addCharacterData(identity, true);
                     console.log('I am ');
                     console.log(this.board.states.find(c => c.id === this.selfId));
                 });
@@ -146,6 +146,8 @@ export class GameManager {
                     const charId = this.ui.game.players.find(p => p.name === player).character.id;
                     this.ui.game.board.currentCharacterId = charId;
                     this.ui.log('Au tour de {0:player}', {name: player});
+                    (this.ui.module as InGameModule).playerDisplays.forEach(pd => { pd.setCurrent(false); });
+                    (this.ui.module as InGameModule).playerDisplays.find(pd => pd.character.id === charId).setCurrent(true);
                 }});
         });
 
@@ -214,7 +216,9 @@ export class GameManager {
                     const chara = this.board.states.find(c => c.id === info.target.character.id);
                     chara.dead = true;
                     chara.killerId = info.killer.character.id;
-                    (this.ui.module as InGameModule).playerDisplays.find(pd => pd.character.id === info.target.character.id).updateHP();
+                    const pd = (this.ui.module as InGameModule).playerDisplays.find(pd => pd.character.id === info.target.character.id);
+                    pd.updateHP();
+                    pd.updateLocation();
                     await sleep(1000);
                 }
             });
@@ -238,9 +242,13 @@ export class GameManager {
         })
     }
 
-    private addCharacterData(data: any) {
+    addCharacterData(data: CharacterState, isSelf: boolean = false) {
         const revealedCharacter = this.board.states.find(c => c.id === data.id);
         revealedCharacter.identity = data.identity;
+        const playerDisplay = (this.ui.module as InGameModule).playerDisplays.find(pd => pd.character.id === data.id);
+        playerDisplay.updateCharacter();
+        if(isSelf)
+            playerDisplay.setSelf();
     }
 
     destroy() {

@@ -2,6 +2,7 @@ import * as crelLib from "crel";
 import {Location} from "../common/Game/CharacterState";
 import {breakText} from "./stringUtil";
 import {outlineFilter} from "./SVGFilter";
+import {Character, Faction} from "../common/Game/Character";
 
 const crel = crelLib.proxy;
 crelLib.attrMap['style'] = (element, value) => {
@@ -26,7 +27,7 @@ const crsvg = new Proxy(crelns, {
 
 export class SVGGenerator {
 
-    private static nameToImageUrl(locationName: string) {
+    private static locationNameToImageUrl(locationName: string) {
         switch (locationName) {
             case 'Forêt hantée':
                 return window.location.origin + '/img/weirdwoods2.jpg';
@@ -39,15 +40,15 @@ export class SVGGenerator {
         return crsvg.svg({
                 xmlns: "http://www.w3.org/2000/svg",
                 'class': 'card-image',
-                width: 784,
-                height: 1076,
+                // width: 784,
+                // height: 1076,
                 viewBox: '0 0 784 1076'
             },
             crsvg.image({
                 width: '100%',
                 height: '100%',
                 preserveAspectRatio: 'none',
-                href: SVGGenerator.nameToImageUrl(location.name)
+                href: SVGGenerator.locationNameToImageUrl(location.name)
             }),
             crsvg.text({
                 'font-size': 150,
@@ -82,6 +83,128 @@ export class SVGGenerator {
                         filter: `url(#${outlineFilter('#000000', 3)})`
                     }
                 }, line);
+            })
+        );
+    }
+
+    private static characterNameToImageUrl(name: string) {
+        switch (name) {
+            case 'Franklin':
+                return window.location.origin + '/img/franklin.png';
+            default:
+                return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=';
+        }
+    }
+
+    static characterCard(character: Character) {
+        if(character === null)
+            return SVGGenerator.characterBack();
+        const victoryConditionLines = breakText(character.victoryCondition.description, 200);
+        const powerLines = breakText(character.power.description, 200);
+        return crsvg.svg({
+                xmlns: "http://www.w3.org/2000/svg",
+                'class': 'card-image',
+                // width: 784,
+                // height: 1076,
+                viewBox: '0 0 784 1076'
+            },
+            crsvg.image({
+                width: '100%',
+                height: '100%',
+                preserveAspectRatio: 'none',
+                href: SVGGenerator.characterNameToImageUrl(character.name)
+            }),
+            crsvg.text({
+                'font-size': 120,
+                x: 130,
+                y: 165,
+                'text-anchor': 'middle',
+                fill: 'black',
+                style: {
+                    filter: `url(#${outlineFilter('#D0D0D0', 3)})`
+                },
+                'class': 'character-name'
+            }, character.name.substr(0, 1).toUpperCase()),
+            crsvg.text({
+                'font-size': 60,
+                x: 220,
+                y: 85,
+                fill: 'black',
+                style: {
+                    filter: `url(#${outlineFilter('#D0D0D0', 1)})`
+                },
+                'class': 'character-name'
+            }, character.name.substr(1).toLowerCase()),
+            crsvg.text({
+                'font-size': 60,
+                x: 110,
+                y: 660,
+                fill: 'black',
+                style: {
+                    filter: `url(#${outlineFilter('#D0D0D0', 1)})`
+                }
+            }, character.faction === Faction.Neutral ? 'Neutre' : character.faction === Faction.Hunter ? 'Hunter' : 'Shadow'),
+            crsvg.text({
+                'font-size': 60,
+                x: 550,
+                y: 660,
+                fill: 'black',
+                style: {
+                    filter: `url(#${outlineFilter('#D0D0D0', 1)})`,
+                    'font-family': 'Times New Roman'
+                }
+            }, 'PV'),
+            crsvg.text({
+                'font-size': 70,
+                x: 695,
+                y: 660,
+                fill: 'black',
+                'text-anchor': 'middle',
+                style: {
+                    filter: `url(#${outlineFilter('#D0D0D0', 1)})`,
+                    'font-family': 'Times New Roman'
+                }
+            }, character.hp),
+            crsvg.text({
+                'font-size': 35,
+                x: 110,
+                y: 738,
+                fill: '#D0D0D0',
+            }, 'Condition de Victoire :'),
+            victoryConditionLines.map((s, index) => crsvg.text({
+                'font-size': 30,
+                x: 120,
+                y: 773 + 30*index,
+                fill: '#D0D0D0',
+            }, s)),
+            crsvg.text({
+                'font-size': 35,
+                x: 110,
+                y: 783 + 30*victoryConditionLines.length,
+                fill: '#D0D0D0',
+            }, 'Pouvoir : ' + character.power.name),
+            powerLines.map((s, index) => crsvg.text({
+                'font-size': 30,
+                x: 120,
+                y: 778 + 30*victoryConditionLines.length + 35 + 30*index,
+                fill: '#D0D0D0',
+            }, s)),
+        );
+    }
+
+    private static characterBack() {
+        return crsvg.svg({
+                xmlns: "http://www.w3.org/2000/svg",
+                'class': 'card-image',
+                // width: 784,
+                // height: 1076,
+                viewBox: '0 0 784 1076'
+            },
+            crsvg.image({
+                width: '100%',
+                height: '100%',
+                preserveAspectRatio: 'none',
+                href: window.location.origin + '/img/character back.png'
             })
         );
     }

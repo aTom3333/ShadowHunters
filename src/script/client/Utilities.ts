@@ -9,11 +9,11 @@ export function random(min: number, max: number) {
     return Math.floor(Math.random() * (max-min)) + min;
 }
 
-export function instantiateTemplate(template: HTMLTemplateElement, data: {[selector: string]: string}): DocumentFragment {
+export function instantiateTemplate(template: HTMLTemplateElement, data: {[selector: string]: string|Element}): DocumentFragment {
     const node = document.importNode(template.content, true);
     for(const selector in data) {
         if(data.hasOwnProperty(selector)) {
-            node.querySelector(selector).textContent = data[selector];
+            node.querySelector(selector).append(data[selector])
         }
     }
 

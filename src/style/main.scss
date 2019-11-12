@@ -8,6 +8,11 @@
   src: url("../font/OSWALD.otf") format("opentype");
 }
 
+@font-face {
+  font-family: "Times New Roman";
+  src: url("../font/times-new-roman.ttf") format("truetype");
+}
+
 
 html, body, .room-selection {
   width: 100%;
@@ -265,6 +270,69 @@ header {
     }
   }
 
+  .player-list {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+
+    .player-info {
+      height: 50%;
+      position: relative;
+      order: 2;
+
+      &.self {
+        order: 1;
+        border-bottom: 1px double lightgray;
+      }
+
+      &.current {
+        background: rgba(100, 100, 100, 0.5);
+      }
+
+      &.hover::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: currentColor;
+        opacity: 0.5;
+        z-index: 5;
+      }
+
+      .player-name {
+        font-weight: bold;
+        position: absolute;
+        z-index: 10;
+      }
+
+      .player-line {
+        position: absolute;
+        top: 20px;
+        bottom: 0;
+        z-index: 10;
+
+        .player-identity {
+          height: 100%;
+          position: relative;
+
+          &.known {
+            cursor: pointer;
+          }
+
+          .card-image {
+            height: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
   .log {
     background: gray;
     overflow-y: scroll;
@@ -291,6 +359,10 @@ svg {
     font-family: "Comic Neue Sans", arial, serif;
 
     &.card-title {
+    }
+
+    &.character-name {
+      font-family: "Times New Roman", serif;
     }
 
     &.numbers {

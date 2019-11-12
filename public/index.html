@@ -64,7 +64,17 @@
             </main>
         </div>
         <div class="in-game" style="display: none">
-            <div class="player-list"></div>
+            <div class="player-list">
+                <template class="player-info-template">
+                    <div class="player-info">
+                        <span class="player-name"></span>
+                        <div class="player-line">
+                            <div class="player-identity"></div>
+                            <div class="player-equipments"></div>
+                        </div>
+                    </div>
+                </template>
+            </div>
             <div class="board-container">
                 <div class="board">
                     <div class="locations">
@@ -108,7 +118,8 @@
                         <feFuncB type="identity"></feFuncB>
                         <feFuncA type="linear" slope="2"></feFuncA>
                     </feComponentTransfer>
-                    <feComposite in2="SourceGraphic" in="smallclouds" result="limitedClouds" operator="in"></feComposite>
+                    <feComposite in2="SourceGraphic" in="smallclouds" result="limitedClouds"
+                                 operator="in"></feComposite>
 
 
                     <feMorphology in="SourceGraphic" operator="dilate" radius="2"></feMorphology>
@@ -147,14 +158,14 @@
                 <filter id="outline-2-48276b">
                     <!--TODO Cleanup-->
                     <!--<feComponentTransfer result="outline">-->
-                        <!--<feFuncR type="table" tableValues="1 1"></feFuncR>-->
-                        <!--<feFuncG type="table" tableValues="1 1"></feFuncG>-->
-                        <!--<feFuncB type="table" tableValues="1 1"></feFuncB>-->
-                        <!--<feFuncA type="identity"></feFuncA>-->
+                    <!--<feFuncR type="table" tableValues="1 1"></feFuncR>-->
+                    <!--<feFuncG type="table" tableValues="1 1"></feFuncG>-->
+                    <!--<feFuncB type="table" tableValues="1 1"></feFuncB>-->
+                    <!--<feFuncA type="identity"></feFuncA>-->
                     <!--</feComponentTransfer>-->
                     <!--<feGaussianBlur stdDeviation="1"></feGaussianBlur>-->
                     <!--<feComponentTransfer result="whiteOutline">-->
-                        <!--<feFuncA type="linear" slope="2"></feFuncA>-->
+                    <!--<feFuncA type="linear" slope="2"></feFuncA>-->
                     <!--</feComponentTransfer>-->
                     <!--<feFlood flood-color="#48276b" flood-opacity="0"></feFlood>-->
                     <!--<feBlend in="whiteOutline" mode="multiply"></feBlend>-->

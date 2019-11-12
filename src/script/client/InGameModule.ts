@@ -2,7 +2,7 @@ import {UIManager, UIModule} from "./UIManager";
 import {LocationPopup} from "./LocationPopup";
 import {SVGGenerator} from "./SVGGenerator";
 import {getCssColor, Pawn, PawnArea} from "./PawnArea";
-import {crel, random} from "./Utilities";
+import {crel, instantiateTemplate, random} from "./Utilities";
 import {PawnColor} from "../common/Game/CharacterState";
 import {PlayerDisplay} from "./PlayerDisplay";
 import {AnimationQueue} from "./AnimationQueue";
@@ -39,15 +39,13 @@ export class InGameModule implements UIModule {
     createPlayerDisplays() {
         if(this.manager.game.board) {
             const board: HTMLElement = this.rootElem.querySelector(".board");
-            this.playerDisplays = this.manager.game.players.filter(p => p.character).map(p => new PlayerDisplay(p.name, p.character, this, board));
+            this.playerDisplays = this.manager.game.players.filter(p => p.character).map(p => new PlayerDisplay(p.name, p.character, this, board, this.rootElem.querySelector('.player-list')));
+            this.playerDisplays.find(pd => pd.character.id === this.manager.game.board.currentCharacterId).setCurrent(true);
         }
     }
 
     initialize(): void {
         this.initializeBoard();
-        this.manager.game.players.forEach(p => {
-
-        });
 
         this.rootElem.style.display = 'grid';
     }
@@ -102,6 +100,10 @@ export class InGameModule implements UIModule {
         this.rootElem.querySelectorAll('.board .locations .location').forEach((e: HTMLElement, index: number) => {
             e.removeEventListener('click', this.listeners.showLocation);
             e.innerHTML = '';
+        });
+
+        this.rootElem.querySelectorAll('.player-list > .player-info').forEach(e => {
+            e.remove();
         });
 
         this.playerDisplays.forEach(pd => pd.cleanup());
