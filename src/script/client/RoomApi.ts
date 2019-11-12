@@ -7,7 +7,7 @@ export default class RoomApi {
      * Request the server to get the list of Room
      */
     static async list(): Promise<JsonResponse<Array<RoomSummary>>> {
-        const response = await fetch('http://shadowhunter/api/list');
+        const response = await fetch('api/list');
         if(response.status !== 200)
             throw new Error('Problem while listing the rooms');
 
@@ -20,7 +20,7 @@ export default class RoomApi {
      * @param name The name of the room to create
      */
     static async create(name: string): Promise<JsonResponse<RoomSummary>> {
-        const response = await fetch('http://shadowhunter/api/create', {
+        const response = await fetch('api/create', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export default class RoomApi {
      * @param name The username
      */
     static async join(room, name: string): Promise<JsonResponse<FullRoom>> {
-        const response = await fetch('http://shadowhunter/api/join', {
+        const response = await fetch('api/join', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
