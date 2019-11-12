@@ -222,7 +222,7 @@ export class SVGGenerator {
                 width: '100%',
                 height: '100%',
                 preserveAspectRatio: 'none',
-                href: window.location.origin + '/img/character back.png'
+                href: 'img/character back.png'
             })
         );
     }
