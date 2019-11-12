@@ -91,6 +91,24 @@ export class SVGGenerator {
         switch (name) {
             case 'Franklin':
                 return window.location.origin + '/img/franklin.png';
+            case 'Emi':
+                return window.location.origin + '/img/emi.png';
+            case 'Georges':
+                return window.location.origin + '/img/georges.png';
+            case 'Vampire':
+                return window.location.origin + '/img/vampire.png';
+            case 'Loup-garou':
+                return window.location.origin + '/img/loup-garou.png';
+            case 'Métamorphe':
+                return window.location.origin + '/img/metamorph.png';
+            case 'Allie':
+                return window.location.origin + '/img/allie.png';
+            case 'Bob':
+                return window.location.origin + '/img/bob.png';
+            case 'Charles':
+                return window.location.origin + '/img/charles.png';
+            case 'Daniel':
+                return window.location.origin + '/img/daniel.png';
             default:
                 return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=';
         }
@@ -192,7 +210,7 @@ export class SVGGenerator {
         );
     }
 
-    private static characterBack() {
+    static characterBack() {
         return crsvg.svg({
                 xmlns: "http://www.w3.org/2000/svg",
                 'class': 'card-image',

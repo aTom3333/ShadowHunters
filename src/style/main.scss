@@ -22,6 +22,7 @@ html, body, .room-selection {
 
 body {
   background-color: #252129;
+  font-family: "Times New Roman", serif;
 }
 
 %title-effect {
@@ -279,10 +280,13 @@ header {
       height: 50%;
       position: relative;
       order: 2;
+      flex-basis: 50%;
+      flex-grow: 0;
+      flex-shrink: 0;
 
       &.self {
         order: 1;
-        border-bottom: 1px double lightgray;
+        border-bottom: 3px double lightgray;
       }
 
       &.current {
@@ -304,13 +308,14 @@ header {
 
       .player-name {
         font-weight: bold;
+        font-size: 1.25em;
         position: absolute;
         z-index: 10;
       }
 
       .player-line {
         position: absolute;
-        top: 20px;
+        top: 25px;
         bottom: 0;
         z-index: 10;
 
