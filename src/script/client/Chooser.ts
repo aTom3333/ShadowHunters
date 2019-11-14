@@ -19,7 +19,7 @@ export class Chooser {
 
     constructor(module: InGameModule) {
         this.module = module;
-        this.root = document.querySelector('.in-game .input');
+        this.root = document.querySelector('.in-game .input .choices');
     }
 
     async choose(choice: ChoiceInterface) {

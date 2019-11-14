@@ -13,7 +13,6 @@ export class ChoiceAnimation implements Animation {
     }
 
     async execute() {
-        await this.ui.choose(this.choice);
-        console.log("choix effectué");
+        this.ui.choose(this.choice);
     }
 }

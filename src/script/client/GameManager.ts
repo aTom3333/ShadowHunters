@@ -190,9 +190,17 @@ export class GameManager {
                 execute: async () => {
                     switch (info.type) {
                         case '-':
-                            this.ui.log('{0:player} a perdu {1} PV', info.player, info.amount);
+                            this.ui.log('{0:player} a pris {1} Blessures', info.player, info.amount);
                             this.ui.game.board.states.find(c => c.id === info.player.character.id).lostHp += info.amount;
-                            break; // TODO - et =
+                            break;
+                        case '+':
+                            this.ui.log('{0:player} est soigné de {1} Blessures', info.player, info.amount);
+                            this.ui.game.board.states.find(c => c.id === info.player.character.id).lostHp -= info.amount;
+                            break;
+                        case '=':
+                            this.ui.log('{0:player} est à {0} Blessures', info.player, info.amount);
+                            this.ui.game.board.states.find(c => c.id === info.player.character.id).lostHp = info.amount;
+                            break;
                     }
                     (this.ui.module as InGameModule).playerDisplays.find(pd => pd.character.id === info.player.character.id).updateHP();
                     await sleep(1000);
@@ -213,6 +221,7 @@ export class GameManager {
             this.ui.queue({
                 execute: async () => {
                     this.ui.log('{0:player} est mort', info.target);
+                    this.addCharacterData(info.target.character);
                     const chara = this.board.states.find(c => c.id === info.target.character.id);
                     chara.dead = true;
                     chara.killerId = info.killer.character.id;
@@ -226,6 +235,25 @@ export class GameManager {
 
         this.socket.on(Update.GameOver.stub, (room: FullRoom) => {
             this.ui.queue(new GameOverAnimation(room, this.ui));
+        });
+
+        this.socket.on(Update.Message.stub, (info: { msg: string, params: Array<any>}) => {
+            this.ui.queue({
+                execute: async () => {
+                    this.ui.log(info.msg, ...info.params);
+                }
+            })
+        });
+
+        this.socket.on(Update.Reveal.stub, (player: PlayerInterface) => {
+            this.ui.queue({
+                execute: async () => {
+                    this.ui.log('{0:player} se révèle', player);
+                    this.addCharacterData(player.character);
+                    this.players.find(p => p.name === player.name).character.revealed = true;
+                    (this.ui.module as InGameModule).playerDisplays.find(pd => pd.name === player.name).updateCharacter();
+                }
+            });
         });
 
 
@@ -247,8 +275,11 @@ export class GameManager {
         revealedCharacter.identity = data.identity;
         const playerDisplay = (this.ui.module as InGameModule).playerDisplays.find(pd => pd.character.id === data.id);
         playerDisplay.updateCharacter();
-        if(isSelf)
+        if(isSelf) {
             playerDisplay.setSelf();
+            if(!data.revealed)
+                (this.ui.module as InGameModule).setupRevealBtn();
+        }
     }
 
     destroy() {

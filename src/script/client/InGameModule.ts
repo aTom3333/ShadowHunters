@@ -11,6 +11,7 @@ import {ChoiceInterface} from "../common/Protocol/ChoiceInterface";
 import {Chooser} from "./Chooser";
 import {add, div, mul, norm, sub} from "./geometry/VectorOps";
 import {Point} from "./geometry/Point";
+import {Request, Update} from "../common/Protocol/SocketIOEvents";
 
 
 export class InGameModule implements UIModule {
@@ -46,6 +47,12 @@ export class InGameModule implements UIModule {
 
     initialize(): void {
         this.initializeBoard();
+        this.listeners.revealBtnClick = (e) => {
+            this.manager.game.socket.emit(Request.Reveal.stub, Request.Reveal(this.manager.game.self));
+            const btn = e.target as HTMLElement;
+            btn.removeEventListener('click', this.listeners.revealBtnClick);
+            btn.style.display = 'none';
+        };
 
         this.rootElem.style.display = 'grid';
     }
@@ -113,6 +120,12 @@ export class InGameModule implements UIModule {
 
     async choose(choice: ChoiceInterface) {
         await this.chooser.choose(choice);
+    }
+
+    setupRevealBtn() {
+        const btn = this.rootElem.querySelector('.revealBtn') as HTMLElement;
+        btn.addEventListener('click', this.listeners.revealBtnClick);
+        btn.style.display = 'initial';
     }
 
 }

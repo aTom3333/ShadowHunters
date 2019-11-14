@@ -45,7 +45,7 @@ export class PlayerDisplay {
 
         this.characterInfo.addEventListener('mouseenter', this.listeners.startHover);
         this.characterInfo.addEventListener('mouseleave', this.listeners.endHover);
-        this.characterInfo.addEventListener('click', this.listeners.showCharacter);
+        this.characterInfo.querySelector('.player-identity').addEventListener('click', this.listeners.showCharacter);
 
         this.updateLocation();
         this.updateHP();
@@ -106,7 +106,7 @@ export class PlayerDisplay {
         this.hidePawn(this.healthPawn);
         this.characterInfo.removeEventListener('mouseenter', this.listeners.startHover);
         this.characterInfo.removeEventListener('mouseleave', this.listeners.endHover);
-        this.characterInfo.removeEventListener('click', this.listeners.showCharacter);
+        this.characterInfo.querySelector('.player-identity').removeEventListener('click', this.listeners.showCharacter);
         this.characterInfo.remove();
     }
 

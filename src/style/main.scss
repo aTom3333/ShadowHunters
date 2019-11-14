@@ -348,6 +348,12 @@ header {
       line-height: 22px;
     }
   }
+
+  .input {
+    .revealBtn {
+      display: none;
+    }
+  }
 }
 
 .card-image {

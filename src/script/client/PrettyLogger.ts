@@ -46,6 +46,12 @@ export class PrettyLogger extends Logger {
     }
 
     cleanup() {
-        this.root.innerHTML = '';
+        this.root.querySelectorAll(':not(.log-entry-template)').forEach(c => {
+            c.remove();
+        });
+        this.root.childNodes.forEach(c => {
+            if(c instanceof Text)
+                c.remove();
+        })
     }
 }
