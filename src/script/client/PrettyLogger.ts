@@ -1,7 +1,7 @@
 import {Logger} from "./Logger";
 import {InGameModule} from "./InGameModule";
 import {PlayerDisplay} from "./PlayerDisplay";
-import {Location} from "../common/Game/CharacterState";
+import {Equipment, Location} from "../common/Game/CharacterState";
 import {crel} from "./Utilities";
 import {getCssColor} from "./PawnArea";
 
@@ -41,7 +41,10 @@ export class PrettyLogger extends Logger {
             return span;
         };
         this.transformers.location = (location: Location) => {
-            return location.name;
+            return location.name; // TODO Add interaction
+        };
+        this.transformers.equipment = (equipment: Equipment) => {
+            return equipment.name; // TODO Add interaction
         };
     }
 

@@ -2,8 +2,9 @@ import {InGameModule} from "./InGameModule";
 import {ChoiceInterface} from "../common/Protocol/ChoiceInterface";
 import {crel} from "./Utilities";
 import {Response} from "../common/Protocol/SocketIOEvents";
-import {Location} from "../common/Game/CharacterState";
+import {Equipment, Location} from "../common/Game/CharacterState";
 import {PlayerDisplay} from "./PlayerDisplay";
+import {PlayerInterface} from "../common/Protocol/PlayerInterface";
 
 
 interface PlayerSummary {
@@ -23,6 +24,7 @@ export class Chooser {
     }
 
     async choose(choice: ChoiceInterface) {
+        console.log(choice);
         switch (choice.type) {
             case 'generic':
                 await this.buildChoice(choice, this.createButtonBuilder());
@@ -76,6 +78,30 @@ export class Chooser {
 
             case 'confirmation':
                 await this.confirmation(choice);
+                break;
+
+            case 'playerequipment':
+                const equipmentBuilder = this.createButtonBuilder((c: {target: PlayerInterface, equipment: Equipment}) => {
+                    return c === null ? 'Aucun Équipement' : c.equipment.name;
+                });
+                await this.buildChoice(choice, (choice: {target: PlayerInterface, equipment: Equipment}, resolve: {()}) => {
+                    const btn = equipmentBuilder(choice, resolve);
+                    if(choice !== null) {
+                        let targetDisplay: PlayerDisplay = this.module.playerDisplays.find(pd => pd.name === choice.target.name);
+                        btn.addEventListener('mouseenter', () => {
+                            targetDisplay.startHover();
+                        });
+                        btn.addEventListener('mouseleave', () => {
+                            targetDisplay.endHover();
+                        });
+                        btn.addEventListener('click', () => {
+                            targetDisplay.endHover();
+                        });
+                    }
+                    return btn;
+                });
+                // TODO Hover th right equipment and enable the player to see the equipment
+                break;
         }
     }
 
