@@ -50,6 +50,7 @@ export class PlayerDisplay {
         this.updateLocation();
         this.updateHP();
         this.updateCharacter();
+        this.updateEquipments();
     }
 
     updateLocation() {
@@ -84,6 +85,20 @@ export class PlayerDisplay {
         card.append(SVGGenerator.characterCard(this.character.identity));
         if(this.character.identity)
             card.classList.add('known');
+    }
+
+    updateEquipments() {
+        const element = this.characterInfo.querySelector('.player-equipments');
+        element.innerHTML = '';
+        this.character.equipment.forEach(e => {
+            let equipment = crel.div({
+                'class': 'player-equipment'
+            }, SVGGenerator.card(e));
+            element.append(equipment);
+            equipment.addEventListener('click', () => {
+                this.module.manager.popup(new CardPopup(SVGGenerator.card(e)))
+            });
+        });
     }
 
     private showPawn(pawn: Pawn) {

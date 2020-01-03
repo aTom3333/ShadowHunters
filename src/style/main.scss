@@ -13,7 +13,6 @@
   src: url("../font/times-new-roman.ttf") format("truetype");
 }
 
-
 html, body, .room-selection {
   width: 100%;
   padding: 0;
@@ -205,7 +204,7 @@ header {
           $cardPercentage: 20%;
           width: $cardPercentage;
           height: $cardAspectRatio * $cardPercentage;
-          background: rgba(0,0,0,0.5);
+          background: rgba(0, 0, 0, 0.5);
           position: absolute;
           top: 0;
           left: 0;
@@ -318,10 +317,14 @@ header {
         top: 25px;
         bottom: 0;
         z-index: 10;
+        width: 100%;
+        padding-bottom: 5px;
 
         .player-identity {
           height: 100%;
-          position: relative;
+          display: inline-block;
+          width: calc((60vh / 2 - 25px) * 0.72);
+          margin: 0 5px;
 
           &.known {
             cursor: pointer;
@@ -329,9 +332,28 @@ header {
 
           .card-image {
             height: 100%;
-            position: absolute;
-            top: 0;
-            bottom: 0;
+          }
+        }
+
+        .player-equipments {
+          height: 100%;
+          width: calc(100% - ((60vh / 2 - 25px) * 0.72) - 20px);
+          display: inline-flex;
+
+          .player-equipment {
+            height: 100%;
+            cursor: pointer;
+            width: calc((60vh / 2 - 25px) * 0.72);
+            flex-shrink: 1;
+
+            &:last-child {
+              flex-shrink: 0;
+            }
+
+            .card-image {
+              height: 100%;
+              box-shadow: 0 0 2px black;
+            }
           }
         }
       }

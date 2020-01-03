@@ -1,5 +1,5 @@
 import * as crelLib from "crel";
-import {Location} from "../common/Game/CharacterState";
+import {Card, Location} from "../common/Game/CharacterState";
 import {breakText} from "./stringUtil";
 import {outlineFilter} from "./SVGFilter";
 import {Character, Faction} from "../common/Game/Character";
@@ -262,5 +262,29 @@ export class SVGGenerator {
                 href: 'img/characters/character back.png'
             })
         );
+    }
+
+    static card(card: Card) {
+        return crsvg.svg({
+                xmlns: "http://www.w3.org/2000/svg",
+                'class': 'card-image',
+                // width: 784,
+                // height: 1076,
+                viewBox: '0 0 784 1076'
+            },
+            crsvg.image({
+                width: '100%',
+                height: '100%',
+                preserveAspectRatio: 'none',
+                href: SVGGenerator.cardNameToImageUrl(card.name)
+            }) // TODO Faire
+        );
+    }
+
+    private static cardNameToImageUrl(name: string) {
+        switch(name) {
+            default:
+                return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=';
+        }
     }
 }
