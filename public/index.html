@@ -120,13 +120,13 @@
                         <feFuncR type="identity"></feFuncR>
                         <feFuncG type="identity"></feFuncG>
                         <feFuncB type="identity"></feFuncB>
-                        <feFuncA type="linear" slope="2"></feFuncA>
+                        <feFuncA type="linear" slope="2.5"></feFuncA>
                     </feComponentTransfer>
                     <feComposite in2="SourceGraphic" in="smallclouds" result="limitedClouds"
                                  operator="in"></feComposite>
 
 
-                    <feMorphology in="SourceGraphic" operator="dilate" radius="2"></feMorphology>
+                    <feMorphology in="SourceGraphic" operator="dilate" radius="3"></feMorphology>
                     <feGaussianBlur stdDeviation="1" result="outlineShape"></feGaussianBlur>
                     <feFlood flood-color="#000000" result="outlineColor"></feFlood>
                     <feComposite in="outlineColor" in2="outlineShape" result="outline" operator="in"></feComposite>
@@ -159,7 +159,7 @@
         </svg>
         <svg width="0" height="0" style="position: absolute;" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <filter id="outline-2-48276b">
+                <filter id="location-name">
                     <!--TODO Cleanup-->
                     <!--<feComponentTransfer result="outline">-->
                     <!--<feFuncR type="table" tableValues="1 1"></feFuncR>-->
@@ -174,11 +174,22 @@
                     <!--<feFlood flood-color="#48276b" flood-opacity="0"></feFlood>-->
                     <!--<feBlend in="whiteOutline" mode="multiply"></feBlend>-->
 
-                    <feMorphology operator="dilate" radius="5"></feMorphology>
+                    <feMorphology operator="dilate" radius="1"></feMorphology>
                     <feGaussianBlur stdDeviation="1" result="outlineShape"></feGaussianBlur>
-                    <feFlood flood-color="#48276b" result="outlineColor"></feFlood>
+                    <feFlood flood-color="#000000" result="outlineColor"></feFlood>
                     <feComposite in="outlineColor" in2="outlineShape" result="outline" operator="in"></feComposite>
                     <!--<feBlend in="SourceGraphic" mode="normal"></feBlend>-->
+
+                    <feMorphology in="SourceGraphic" operator="dilate" radius="5"></feMorphology>
+                    <feGaussianBlur stdDeviation="2" result="gradientShape"></feGaussianBlur>
+                    <feFlood flood-color="#ffffff" result="gradientColor"></feFlood>
+                    <feComposite in="gradientColor" in2="gradientShape" operator="in"></feComposite>
+                    <feComponentTransfer result="gradient">
+                        <feFuncR type="identity"></feFuncR>
+                        <feFuncG type="identity"></feFuncG>
+                        <feFuncB type="identity"></feFuncB>
+                        <feFuncA type="linear" slope="0.25"></feFuncA>
+                    </feComponentTransfer>
 
                     <feComponentTransfer in="SourceGraphic" result="darkText">
                         <feFuncR type="linear" slope="0.5"></feFuncR>
@@ -189,6 +200,7 @@
                     <feMorphology in="SourceGraphic" result="slimText" operator="erode" radius="2"></feMorphology>
 
                     <feMerge>
+                        <feMergeNode in="gradient"></feMergeNode>
                         <feMergeNode in="outline"></feMergeNode>
                         <feMergeNode in="darkText"></feMergeNode>
                         <feMergeNode in="slimText"></feMergeNode>

@@ -30,7 +30,17 @@ export class SVGGenerator {
     private static locationNameToImageUrl(locationName: string) {
         switch (locationName) {
             case 'Forêt hantée':
-                return 'img/weirdwoods2.jpg';
+                return 'img/locations/foret_hantee.jpg';
+            case 'Porte de l\'outremonde':
+                return 'img/locations/porte_outremonde.jpg';
+            case 'Monastère':
+                return 'img/locations/monastere.jpg';
+            case 'Antre de l\'ermite':
+                return 'img/locations/antre_de_lermite.jpg';
+            case 'Cimetière':
+                return 'img/locations/cimetiere.jpg';
+            case 'Sanctuaire ancien':
+                return 'img/locations/sanctuaire_ancien.jpg';
             default:
                 return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII='
         }
@@ -50,37 +60,64 @@ export class SVGGenerator {
                 preserveAspectRatio: 'none',
                 href: SVGGenerator.locationNameToImageUrl(location.name)
             }),
-            crsvg.text({
-                'font-size': 150,
-                x: '50%',
-                y: 700,
-                'text-anchor': 'middle',
-                fill: '#efe50a',
-                style: {
-                    filter: `url(#blackspots)`
-                },
-                'class': 'numbers'
-            }, location.numbers.join('/')),
+            location.numbers.length === 1 ?
+                crsvg.text({
+                    'font-size': 150,
+                    x: '50%',
+                    y: 700,
+                    'text-anchor': 'middle',
+                    fill: '#efe50a',
+                    style: {
+                        filter: `url(#blackspots)`
+                    },
+                    'class': 'numbers'
+                }, location.numbers[0])
+            :
+            [
+                crsvg.text({
+                    'font-size': 140,
+                    x: 290,
+                    y: 705,
+                    'text-anchor': 'middle',
+                    fill: '#efe50a',
+                    style: {
+                        filter: `url(#blackspots)`
+                    },
+                    'class': 'numbers'
+                }, location.numbers[0]),
+                crsvg.text({
+                    'font-size': 140,
+                    x: 784-290,
+                    y: 705,
+                    'text-anchor': 'middle',
+                    fill: '#efe50a',
+                    style: {
+                        filter: `url(#blackspots)`
+                    },
+                    'class': 'numbers'
+                }, location.numbers[1])
+            ],
             crsvg.text({
                 'font-size': 60,
                 x: '50%',
-                y: 800,
+                y: 820,
                 'text-anchor': 'middle',
                 fill: '#efe50a',
                 style: {
-                    filter: `url(#outline-2-48276b)`
+                    'font-weight': 'bold',
+                    filter: `url(#location-name)`
                 },
                 'class': 'card-title'
             }, location.name),
             breakText(location.description, 120).map((line, index) => {
                 return crsvg.text({
                     x: '50%',
-                    y: 868 + 48*index,
+                    y: 888 + 48*index,
                     'text-anchor': 'middle',
                     style: {
-                        fill: '#7c7837',
+                        fill: '#ececec',
                         'font-size': '40px',
-                        filter: `url(#${outlineFilter('#000000', 3)})`
+                        filter: `url(#${outlineFilter('#000000', 2)})`
                     }
                 }, line);
             })
@@ -90,25 +127,25 @@ export class SVGGenerator {
     private static characterNameToImageUrl(name: string) {
         switch (name) {
             case 'Franklin':
-                return 'img/franklin.png';
+                return 'img/characters/franklin.png';
             case 'Emi':
-                return 'img/emi.png';
+                return 'img/characters/emi.png';
             case 'Georges':
-                return 'img/georges.png';
+                return 'img/characters/georges.png';
             case 'Vampire':
-                return 'img/vampire.png';
+                return 'img/characters/vampire.png';
             case 'Loup-garou':
-                return 'img/loup-garou.png';
+                return 'img/characters/loup-garou.png';
             case 'Métamorphe':
-                return 'img/metamorph.png';
+                return 'img/characters/metamorph.png';
             case 'Allie':
-                return 'img/allie.png';
+                return 'img/characters/allie.png';
             case 'Bob':
-                return 'img/bob.png';
+                return 'img/characters/bob.png';
             case 'Charles':
-                return 'img/charles.png';
+                return 'img/characters/charles.png';
             case 'Daniel':
-                return 'img/daniel.png';
+                return 'img/characters/daniel.png';
             default:
                 return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=';
         }
@@ -222,7 +259,7 @@ export class SVGGenerator {
                 width: '100%',
                 height: '100%',
                 preserveAspectRatio: 'none',
-                href: 'img/character back.png'
+                href: 'img/characters/character back.png'
             })
         );
     }
