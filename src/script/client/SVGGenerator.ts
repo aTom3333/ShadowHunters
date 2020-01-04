@@ -273,6 +273,8 @@ export class SVGGenerator {
                 return SVGGenerator.whiteCard(card);
             case CardColor.Green:
                 return SVGGenerator.greenCard(card);
+            case CardColor.Black:
+                return SVGGenerator.blackCard(card);
             default:
                 return crsvg.svg({
                         xmlns: "http://www.w3.org/2000/svg",
@@ -285,26 +287,39 @@ export class SVGGenerator {
                         width: '100%',
                         height: '100%',
                         preserveAspectRatio: 'none',
-                        href: SVGGenerator.cardNameToImageUrl(card.name)
+                        href: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII='
                     }) // TODO Faire
                 );
         }
     }
 
-    private static cardNameToImageUrl(name: string) {
+    private static whiteCardNameToImageUrl(name: string) {
         switch(name) {
             case 'Lance de Longinus':
                 return 'img/white/lance_de_longinus.jpg';
-
-            case 'Vision clairvoyante':
-                return 'img/green/vision_clairevoyante.png';
             default:
                 return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=';
         }
     }
 
+    private static greenCardNameToImageUrl(name: string) {
+        switch(name) {
+            case 'Vision clairvoyante':
+                return 'img/green/vision_clairevoyante.png';
+            default:
+                return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw1AUhU/TSkUqDhYs4pChOlkQFXHUKhShQqgVWnUweekfNDEkKS6OgmvBwZ/FqoOLs64OroIg+APi5Oik6CIl3pcUWsR44fE+zrvn8N59gNCoMs0KjQGabpuZVFLM5VfE8CsCCGEAYcRkZhmzkpSGb33dUzfVXYJn+ff9Wb1qwWJAQCSeYYZpE68TT23aBud94igryyrxOfGoSRckfuS64vEb55LLAs+MmtnMHHGUWCx1sNLBrGxqxJPEcVXTKV/Ieaxy3uKsVWusdU/+wkhBX17iOq0hpLCARUgQoaCGCqqwkaBdJ8VChs6TPv5B1y+RSyFXBYwc89iABtn1g//B79laxYlxLymSBLpeHOdjGAjvAs2643wfO07zBAg+A1d627/RAKY/Sa+3tfgR0LcNXFy3NWUPuNwBYk+GbMquFKQlFIvA+xl9Ux7ovwV6Vr25tc5x+gBkaVbpG+DgEBgpUfaaz7u7O+f2b09rfj/9aXJ49LTeDAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+QBBBcIDsULXykAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12MwTpYBAAF/ALOwH/gqAAAAAElFTkSuQmCC';
+        }
+    }
+
+    private static blackCardNameToImageUrl(name: string) {
+        switch(name) {
+            default:
+                return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw1AUhU/TSkUqDhYs4pChOlkQFXHUKhShQqgVWnUweekfNDEkKS6OgmvBwZ/FqoOLs64OroIg+APi5Oik6CIl3pcUWsR44fE+zrvn8N59gNCoMs0KjQGabpuZVFLM5VfE8CsCCGEAYcRkZhmzkpSGb33dUzfVXYJn+ff9Wb1qwWJAQCSeYYZpE68TT23aBud94igryyrxOfGoSRckfuS64vEb55LLAs+MmtnMHHGUWCx1sNLBrGxqxJPEcVXTKV/Ieaxy3uKsVWusdU/+wkhBX17iOq0hpLCARUgQoaCGCqqwkaBdJ8VChs6TPv5B1y+RSyFXBYwc89iABtn1g//B79laxYlxLymSBLpeHOdjGAjvAs2643wfO07zBAg+A1d627/RAKY/Sa+3tfgR0LcNXFy3NWUPuNwBYk+GbMquFKQlFIvA+xl9Ux7ovwV6Vr25tc5x+gBkaVbpG+DgEBgpUfaaz7u7O+f2b09rfj/9aXJ49LTeDAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+QBBBcIJB6wlv8AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12OQl5cHAAC+AF7LrfqPAAAAAElFTkSuQmCC';
+        }
+    }
+
     private static whiteCard(card: Card) {
-        const whiteEquipments = ['Lance de Longinus', 'Amulette']; // TODO Compléter
+        const whiteEquipments = ['Lance de Longinus', 'Amulette', 'Boussole mystique', 'Broche de chance', 'Crucifix en argent', 'Toge sainte']; // TODO Compléter
         const isEquipment = whiteEquipments.indexOf(card.name) !== -1;
         return crsvg.svg({
                 xmlns: "http://www.w3.org/2000/svg",
@@ -317,7 +332,7 @@ export class SVGGenerator {
                 width: '100%',
                 height: '100%',
                 preserveAspectRatio: 'none',
-                href: SVGGenerator.cardNameToImageUrl(card.name)
+                href: SVGGenerator.whiteCardNameToImageUrl(card.name)
             }),
             crsvg.text({
                 'font-size': 40,
@@ -373,14 +388,14 @@ export class SVGGenerator {
                 width: '100%',
                 height: '100%',
                 preserveAspectRatio: 'none',
-                href: SVGGenerator.cardNameToImageUrl(card.name)
+                href: SVGGenerator.greenCardNameToImageUrl(card.name)
             }),
             crsvg.text({
                 'font-size': 40,
                 x: '50%',
                 y: 100,
                 'text-anchor': 'middle',
-                fill: '#000000',
+                fill: '#ffffff',
                 'class': 'card-title ortem'
             }, card.name),
             crsvg.text({
@@ -388,7 +403,7 @@ export class SVGGenerator {
                 x: '50%',
                 y: 815,
                 'text-anchor': 'middle',
-                fill: '#000000'
+                fill: '#ffffff'
             }, condition),
             breakText(action, 200).map((line, index) => {
                 return crsvg.text({
@@ -396,7 +411,7 @@ export class SVGGenerator {
                     x: '50%',
                     y: 870 + 32*index,
                     'text-anchor': 'middle',
-                    fill: '#000000'
+                    fill: '#ffffff'
                 }, line);
             })
         );
@@ -414,7 +429,60 @@ export class SVGGenerator {
                 width: '100%',
                 height: '100%',
                 preserveAspectRatio: 'none',
-                href: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=' // TODO Green Back
+                href: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw1AUhU/TSkUqDhYs4pChOlkQFXHUKhShQqgVWnUweekfNDEkKS6OgmvBwZ/FqoOLs64OroIg+APi5Oik6CIl3pcUWsR44fE+zrvn8N59gNCoMs0KjQGabpuZVFLM5VfE8CsCCGEAYcRkZhmzkpSGb33dUzfVXYJn+ff9Wb1qwWJAQCSeYYZpE68TT23aBud94igryyrxOfGoSRckfuS64vEb55LLAs+MmtnMHHGUWCx1sNLBrGxqxJPEcVXTKV/Ieaxy3uKsVWusdU/+wkhBX17iOq0hpLCARUgQoaCGCqqwkaBdJ8VChs6TPv5B1y+RSyFXBYwc89iABtn1g//B79laxYlxLymSBLpeHOdjGAjvAs2643wfO07zBAg+A1d627/RAKY/Sa+3tfgR0LcNXFy3NWUPuNwBYk+GbMquFKQlFIvA+xl9Ux7ovwV6Vr25tc5x+gBkaVbpG+DgEBgpUfaaz7u7O+f2b09rfj/9aXJ49LTeDAAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+QBBBcIDsULXykAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12MwTpYBAAF/ALOwH/gqAAAAAElFTkSuQmCC'
+            })
+        );
+    }
+
+    private static blackCard(card: Card) {
+        const blackEquipments = ['Hache tueuse', 'Hachoir maudit', 'Mitrailleuse funeste', 'Revolver des ténèbres', 'Sabre hanté Masamune', 'Tronçonneuse du mal']; // TODO Compléter
+        const isEquipment = blackEquipments.indexOf(card.name) !== -1;
+        return crsvg.svg({
+                xmlns: "http://www.w3.org/2000/svg",
+                'class': 'card-image',
+                // width: 784,
+                // height: 1076,
+                viewBox: '0 0 784 1076'
+            },
+            crsvg.image({
+                width: '100%',
+                height: '100%',
+                preserveAspectRatio: 'none',
+                href: SVGGenerator.blackCardNameToImageUrl(card.name)
+            }),
+            crsvg.text({
+                'font-size': 40,
+                x: '50%',
+                y: 100,
+                'text-anchor': 'middle',
+                fill: '#b58a46',
+                'class': 'card-title ortem'
+            }, card.name),
+            isEquipment ?
+                crsvg.text({
+                    'font-size': 30,
+                    x: '50%',
+                    y: 815,
+                    'text-anchor': 'middle',
+                    fill: '#ffffff',
+                    'class': 'ortem'
+                }, "Équipement")
+                :
+                crsvg.text({
+                    'font-size': 20,
+                    x: '50%',
+                    y: 815,
+                    'text-anchor': 'middle',
+                    fill: '#b58a46'
+                }, "À jouer immédiatement".toUpperCase()),
+            breakText(card.description, 200).map((line, index) => {
+                return crsvg.text({
+                    'font-size': 30,
+                    x: '50%',
+                    y: 870 + 32*index,
+                    'text-anchor': 'middle',
+                    fill: '#ffffff'
+                }, line);
             })
         );
     }
