@@ -282,6 +282,22 @@ export class GameManager {
             });
         });
 
+        this.socket.on(Update.ShowCard.stub, (card: Card) => {
+            this.ui.queue({
+                execute: async () => {
+                    (this.ui.module as InGameModule).showCard(card);
+                }
+            })
+        });
+
+        this.socket.on(Update.HideCard.stub, () => {
+            this.ui.queue({
+                execute: async () => {
+                    (this.ui.module as InGameModule).hideCard();
+                }
+            })
+        });
+
 
 
         this.socket.on(Debug.CheckState.stub, (room: FullRoom) => {

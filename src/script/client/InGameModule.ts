@@ -3,7 +3,7 @@ import {LocationPopup} from "./LocationPopup";
 import {SVGGenerator} from "./SVGGenerator";
 import {getCssColor, Pawn, PawnArea} from "./PawnArea";
 import {crel, instantiateTemplate, random} from "./Utilities";
-import {PawnColor} from "../common/Game/CharacterState";
+import {Card, PawnColor} from "../common/Game/CharacterState";
 import {PlayerDisplay} from "./PlayerDisplay";
 import {AnimationQueue} from "./AnimationQueue";
 import {PrettyLogger} from "./PrettyLogger";
@@ -12,6 +12,7 @@ import {Chooser} from "./Chooser";
 import {add, div, mul, norm, sub} from "./geometry/VectorOps";
 import {Point} from "./geometry/Point";
 import {Request, Update} from "../common/Protocol/SocketIOEvents";
+import {CardPopup} from "./CardPopup";
 
 
 export class InGameModule implements UIModule {
@@ -126,6 +127,29 @@ export class InGameModule implements UIModule {
         const btn = this.rootElem.querySelector('.revealBtn') as HTMLElement;
         btn.addEventListener('click', this.listeners.revealBtnClick);
         btn.style.display = 'initial';
+    }
+
+    showCard(card: Card) {
+        const cardDisplay = this.rootElem.querySelector('.card-display') as HTMLDivElement;
+        cardDisplay.innerHTML = '';
+        cardDisplay.append(SVGGenerator.card(card));
+        cardDisplay.style.display = 'initial';
+        cardDisplay.classList.add('clickable');
+        if(this.listeners.cardDisplayClick)
+            cardDisplay.removeEventListener('click', this.listeners.cardDisplayClick);
+        this.listeners.cardDisplayClick = () => {
+            this.manager.popup(new CardPopup(SVGGenerator.card(card)));
+        };
+        cardDisplay.addEventListener('click', this.listeners.cardDisplayClick);
+    }
+
+    hideCard() {
+        const cardDisplay = this.rootElem.querySelector('.card-display') as HTMLDivElement;
+        cardDisplay.innerHTML = '';
+        cardDisplay.style.display = 'none';
+        cardDisplay.classList.remove('clickable');
+        cardDisplay.removeEventListener('click', this.listeners.cardDisplayClick);
+        delete this.listeners.cardDisplayClick;
     }
 
 }

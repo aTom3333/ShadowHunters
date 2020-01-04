@@ -272,6 +272,20 @@ header {
           box-shadow: currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px, currentColor 0 0 10px;
         }
       }
+
+      .card-display {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        z-index: 20;
+
+        .card-image {
+          height: calc(100% - 50px);
+          margin: 25px 0;
+          box-shadow: 0 0 4px black, 0 0 4px black;
+        }
+      }
     }
   }
 

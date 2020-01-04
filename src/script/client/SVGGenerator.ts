@@ -271,6 +271,8 @@ export class SVGGenerator {
         switch(card.color) {
             case CardColor.White:
                 return SVGGenerator.whiteCard(card);
+            case CardColor.Green:
+                return SVGGenerator.greenCard(card);
             default:
                 return crsvg.svg({
                         xmlns: "http://www.w3.org/2000/svg",
@@ -293,6 +295,9 @@ export class SVGGenerator {
         switch(name) {
             case 'Lance de Longinus':
                 return 'img/white/lance_de_longinus.jpg';
+
+            case 'Vision clairvoyante':
+                return 'img/green/vision_clairevoyante.png';
             default:
                 return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=';
         }
@@ -347,6 +352,69 @@ export class SVGGenerator {
                     'text-anchor': 'middle',
                     fill: '#000000'
                 }, line);
+            })
+        );
+    }
+
+    private static greenCard(card: Card) {
+        if(card.name === null)
+            return SVGGenerator.greenBack();
+        const idx = card.description.indexOf('.');
+        const condition = card.description.substr(0, idx);
+        const action = card.description.substr(idx+1);
+        return crsvg.svg({
+                xmlns: "http://www.w3.org/2000/svg",
+                'class': 'card-image',
+                // width: 784,
+                // height: 1076,
+                viewBox: '0 0 784 1076'
+            },
+            crsvg.image({
+                width: '100%',
+                height: '100%',
+                preserveAspectRatio: 'none',
+                href: SVGGenerator.cardNameToImageUrl(card.name)
+            }),
+            crsvg.text({
+                'font-size': 40,
+                x: '50%',
+                y: 100,
+                'text-anchor': 'middle',
+                fill: '#000000',
+                'class': 'card-title ortem'
+            }, card.name),
+            crsvg.text({
+                'font-size': 30,
+                x: '50%',
+                y: 815,
+                'text-anchor': 'middle',
+                fill: '#000000'
+            }, condition),
+            breakText(action, 200).map((line, index) => {
+                return crsvg.text({
+                    'font-size': 30,
+                    x: '50%',
+                    y: 870 + 32*index,
+                    'text-anchor': 'middle',
+                    fill: '#000000'
+                }, line);
+            })
+        );
+    }
+
+    private static greenBack() {
+        return crsvg.svg({
+                xmlns: "http://www.w3.org/2000/svg",
+                'class': 'card-image',
+                // width: 784,
+                // height: 1076,
+                viewBox: '0 0 784 1076'
+            },
+            crsvg.image({
+                width: '100%',
+                height: '100%',
+                preserveAspectRatio: 'none',
+                href: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=' // TODO Green Back
             })
         );
     }
