@@ -1,5 +1,5 @@
 import * as crelLib from "crel";
-import {Card, Location} from "../common/Game/CharacterState";
+import {Card, CardColor, Location} from "../common/Game/CharacterState";
 import {breakText} from "./stringUtil";
 import {outlineFilter} from "./SVGFilter";
 import {Character, Faction} from "../common/Game/Character";
@@ -47,6 +47,7 @@ export class SVGGenerator {
     }
 
     static locationCard(location: Location) {
+        const locName = breakText(location.name, 80);
         return crsvg.svg({
                 xmlns: "http://www.w3.org/2000/svg",
                 'class': 'card-image',
@@ -97,22 +98,24 @@ export class SVGGenerator {
                     'class': 'numbers'
                 }, location.numbers[1])
             ],
-            crsvg.text({
-                'font-size': 60,
-                x: '50%',
-                y: 820,
-                'text-anchor': 'middle',
-                fill: '#efe50a',
-                style: {
-                    'font-weight': 'bold',
-                    filter: `url(#location-name)`
-                },
-                'class': 'card-title'
-            }, location.name),
-            breakText(location.description, 120).map((line, index) => {
+            locName.map((line, index) => {
+                return crsvg.text({
+                    'font-size': 60,
+                    x: '50%',
+                    y: 820 + 60*index,
+                    'text-anchor': 'middle',
+                    fill: '#efe50a',
+                    style: {
+                        'font-weight': 'bold',
+                        filter: `url(#location-name)`
+                    },
+                    'class': 'card-title ortem'
+                }, line);
+            }),
+            breakText(location.description, 180).map((line, index) => {
                 return crsvg.text({
                     x: '50%',
-                    y: 888 + 48*index,
+                    y: 820 + 60*locName.length + 16 - 8*locName.length + 48*index,
                     'text-anchor': 'middle',
                     style: {
                         fill: '#ececec',
@@ -265,6 +268,39 @@ export class SVGGenerator {
     }
 
     static card(card: Card) {
+        switch(card.color) {
+            case CardColor.White:
+                return SVGGenerator.whiteCard(card);
+            default:
+                return crsvg.svg({
+                        xmlns: "http://www.w3.org/2000/svg",
+                        'class': 'card-image',
+                        // width: 784,
+                        // height: 1076,
+                        viewBox: '0 0 784 1076'
+                    },
+                    crsvg.image({
+                        width: '100%',
+                        height: '100%',
+                        preserveAspectRatio: 'none',
+                        href: SVGGenerator.cardNameToImageUrl(card.name)
+                    }) // TODO Faire
+                );
+        }
+    }
+
+    private static cardNameToImageUrl(name: string) {
+        switch(name) {
+            case 'Lance de Longinus':
+                return 'img/white/lance_de_longinus.jpg';
+            default:
+                return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=';
+        }
+    }
+
+    private static whiteCard(card: Card) {
+        const whiteEquipments = ['Lance de Longinus', 'Amulette']; // TODO Compléter
+        const isEquipment = whiteEquipments.indexOf(card.name) !== -1;
         return crsvg.svg({
                 xmlns: "http://www.w3.org/2000/svg",
                 'class': 'card-image',
@@ -277,14 +313,41 @@ export class SVGGenerator {
                 height: '100%',
                 preserveAspectRatio: 'none',
                 href: SVGGenerator.cardNameToImageUrl(card.name)
-            }) // TODO Faire
+            }),
+            crsvg.text({
+                'font-size': 40,
+                x: '50%',
+                y: 100,
+                'text-anchor': 'middle',
+                fill: '#000000',
+                'class': 'card-title ortem'
+            }, card.name),
+            isEquipment ?
+                crsvg.text({
+                    'font-size': 30,
+                    x: '50%',
+                    y: 815,
+                    'text-anchor': 'middle',
+                    fill: '#ffffff',
+                    'class': 'ortem'
+                }, "Équipement")
+            :
+                crsvg.text({
+                    'font-size': 20,
+                    x: '50%',
+                    y: 815,
+                    'text-anchor': 'middle',
+                    fill: '#000000'
+                }, "À jouer immédiatement".toUpperCase()),
+            breakText(card.description, 200).map((line, index) => {
+                return crsvg.text({
+                    'font-size': 30,
+                    x: '50%',
+                    y: 870 + 32*index,
+                    'text-anchor': 'middle',
+                    fill: '#000000'
+                }, line);
+            })
         );
-    }
-
-    private static cardNameToImageUrl(name: string) {
-        switch(name) {
-            default:
-                return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4wodDwIAja1x0AAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAMSURBVAjXY/j//z8ABf4C/tzMWecAAAAASUVORK5CYII=';
-        }
     }
 }

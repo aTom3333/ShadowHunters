@@ -176,7 +176,7 @@ export class GameManager {
 
         this.socket.on(Update.Equip.stub, (info: {player: PlayerInterface, equipment: Equipment}) => {
             this.ui.queue({ execute: () => {
-                this.ui.log('{0:player} équipe {1}', info.player, info.equipment.name);
+                this.ui.log('{0:player} équipe {1:equipment}', info.player, info.equipment);
                 this.board.states.find(c => c.id === info.player.character.id).equipment.push(info.equipment);
                 (this.ui.module as InGameModule).playerDisplays.find(pd => pd.name === info.player.name).updateEquipments();
             }});

@@ -13,6 +13,11 @@
   src: url("../font/times-new-roman.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Ortem";
+  src: url("../font/OrtemMN.otf") format("opentype");
+}
+
 html, body, .room-selection {
   width: 100%;
   padding: 0;
@@ -389,7 +394,9 @@ header {
 svg {
   text {
     //font-weight: bold;
-    font-family: "Comic Neue Sans", arial, serif;
+    &.ortem {
+      font-family: "Ortem", arial, serif;
+    }
 
     &.card-title {
     }
@@ -404,4 +411,8 @@ svg {
       filter: url('#blackspots');
     }
   }
+}
+
+.clickable {
+  cursor: pointer;
 }

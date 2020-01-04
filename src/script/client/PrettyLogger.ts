@@ -4,6 +4,8 @@ import {PlayerDisplay} from "./PlayerDisplay";
 import {Equipment, Location} from "../common/Game/CharacterState";
 import {crel} from "./Utilities";
 import {getCssColor} from "./PawnArea";
+import {CardPopup} from "./CardPopup";
+import {SVGGenerator} from "./SVGGenerator";
 
 
 export class PrettyLogger extends Logger {
@@ -44,7 +46,13 @@ export class PrettyLogger extends Logger {
             return location.name; // TODO Add interaction
         };
         this.transformers.equipment = (equipment: Equipment) => {
-            return equipment.name; // TODO Add interaction
+            const span = crel.span({
+                'class': 'clickable'
+            }, equipment.name); // TODO Add color
+            span.addEventListener('click', () => {
+                this.module.manager.popup(new CardPopup(SVGGenerator.card(equipment)));
+            });
+            return span; // TODO Add interaction
         };
     }
 
