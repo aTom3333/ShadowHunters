@@ -1,7 +1,7 @@
 import {Logger} from "./Logger";
 import {InGameModule} from "./InGameModule";
 import {PlayerDisplay} from "./PlayerDisplay";
-import {Equipment, Location} from "../common/Game/CharacterState";
+import {Card, Equipment, Location} from "../common/Game/CharacterState";
 import {crel} from "./Utilities";
 import {getCssColor} from "./PawnArea";
 import {CardPopup} from "./CardPopup";
@@ -51,6 +51,15 @@ export class PrettyLogger extends Logger {
             }, equipment.name); // TODO Add color
             span.addEventListener('click', () => {
                 this.module.manager.popup(new CardPopup(SVGGenerator.card(equipment)));
+            });
+            return span; // TODO Add interaction
+        };
+        this.transformers.card = (card: Card) => {
+            const span = crel.span({
+                'class': 'clickable'
+            }, card.name); // TODO Add color
+            span.addEventListener('click', () => {
+                this.module.manager.popup(new CardPopup(SVGGenerator.card(card)));
             });
             return span; // TODO Add interaction
         };

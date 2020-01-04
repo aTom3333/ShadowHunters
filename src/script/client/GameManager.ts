@@ -1,4 +1,4 @@
-import {Board, TurnStep} from "../common/Game/Board";
+import {Board} from "../common/Game/Board";
 import {UIManager, UIState} from "./UIManager";
 import {Card, CardColor, CharacterState, Equipment} from "../common/Game/CharacterState";
 import {Debug, Dice, Request, Update} from "../common/Protocol/SocketIOEvents";
@@ -174,6 +174,22 @@ export class GameManager {
             }});
         });
 
+        this.socket.on(Update.DiscardCard.stub, (card: Card) => {
+            this.ui.queue({ execute: async () => {
+                switch (card.color) {
+                    case CardColor.Green:
+                        this.board.greenDeck.discard.push(card);
+                        break;
+                    case CardColor.Black:
+                        this.board.blackDeck.discard.push(card);
+                        break;
+                    case CardColor.White:
+                        this.board.whiteDeck.discard.push(card);
+                        break;
+                }
+            }});
+        });
+
         this.socket.on(Update.Equip.stub, (info: {player: PlayerInterface, equipment: Equipment}) => {
             this.ui.queue({ execute: () => {
                 this.ui.log('{0:player} équipe {1:equipment}', info.player, info.equipment);
@@ -208,7 +224,7 @@ export class GameManager {
                             this.ui.game.board.states.find(c => c.id === info.player.character.id).lostHp -= info.amount;
                             break;
                         case '=':
-                            this.ui.log('{0:player} est à {0} Blessures', info.player, info.amount);
+                            this.ui.log('{0:player} est à {1} Blessures', info.player, info.amount);
                             this.ui.game.board.states.find(c => c.id === info.player.character.id).lostHp = info.amount;
                             break;
                     }

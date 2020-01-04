@@ -1,6 +1,6 @@
 import {crel} from "./Utilities";
 import {PlayerDisplay} from "./PlayerDisplay";
-import {Equipment, Location} from "../common/Game/CharacterState";
+import {Card, Equipment, Location} from "../common/Game/CharacterState";
 
 
 type Applicator = {(elems: Array<string|Element>): void};
@@ -64,6 +64,9 @@ export class ConsoleLogger extends Logger {
         };
         this.transformers.equipment = (equipment: Equipment) => {
             return equipment.name;
+        };
+        this.transformers.card = (card: Card) => {
+            return card.name;
         };
     }
 }
