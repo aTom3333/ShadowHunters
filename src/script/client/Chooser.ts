@@ -86,7 +86,7 @@ export class Chooser {
                 });
                 await this.buildChoice(choice, (choice: {target: PlayerInterface, equipment: Equipment}, resolve: {()}) => {
                     const btn = equipmentBuilder(choice, resolve);
-                    if(choice !== null) {
+                    if(choice !== null && choice.target !== null) {
                         let targetDisplay: PlayerDisplay = this.module.playerDisplays.find(pd => pd.name === choice.target.name);
                         btn.addEventListener('mouseenter', () => {
                             targetDisplay.startHover();

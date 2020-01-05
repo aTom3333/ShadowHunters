@@ -24,6 +24,13 @@ export class AttackAnimation implements Animation {
                 return 'utilise les pouvoirs de la Forêt hantée sur';
             case 'thunder':
                 return 'fait abattre la foudre sur';
+            case 'demolition':
+                return 'démolit';
+            case 'vision':
+                return 'blesse avec sa vision';
+                // TODO Phrase custom
+            default:
+                return 'blesse';
         }
     }
 }
