@@ -9,26 +9,26 @@
     "watch": "webpack -w"
   },
   "dependencies": {
-    "crel": "^4.0.1",
+    "crel": "^4.2.0",
     "crelns": "^1.0.1",
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.15",
-    "request-promise-native": "latest",
-    "socket.io-client": "^2.2.0"
+    "request-promise-native": "^1.0.8",
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "@types/jquery": "^3.3.31",
-    "@types/js-cookie": "^2.2.2",
-    "@types/lodash": "^4.14.138",
+    "@types/js-cookie": "^2.2.4",
+    "@types/lodash": "^4.14.149",
     "@types/socket.io-client": "^1.4.32",
-    "css-loader": "^3.2.0",
-    "mini-css-extract-plugin": "^0.8.0",
-    "node-sass": "^4.12.0",
+    "css-loader": "^3.4.1",
+    "mini-css-extract-plugin": "^0.8.2",
+    "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
-    "ts-loader": "^6.0.4",
-    "typescript": "^3.6.2",
-    "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3"
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   }
 }

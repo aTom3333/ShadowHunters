@@ -1,29 +1,11 @@
-import * as crelLib from "crel";
+
 import {Card, CardColor, Location} from "../common/Game/CharacterState";
 import {breakText} from "./stringUtil";
 import {outlineFilter} from "./SVGFilter";
 import {Character, Faction} from "../common/Game/Character";
+import {crsvg} from "./Utilities";
 
-const crel = crelLib.proxy;
-crelLib.attrMap['style'] = (element, value) => {
-    for (const property in value) {
-        if(value.hasOwnProperty(property)) {
-            element.style[property] = value[property];
-        }
-    }
-};
 
-const crelns: any = function(namespace, type) {
-    const element = document.createElementNS(namespace, type);
-    return crelLib.apply(null, [element].concat(Array.prototype.slice.call(arguments, 2)));
-};
-
-const crsvg = new Proxy(crelns, {
-    get: (target, p) =>  {
-        !(p in crelns) && (crelns[p] = crelns.bind(null, 'http://www.w3.org/2000/svg', p));
-        return crelns[p];
-    }
-});
 
 export class SVGGenerator {
 
