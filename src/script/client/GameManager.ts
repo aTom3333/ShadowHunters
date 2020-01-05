@@ -121,7 +121,7 @@ export class GameManager {
             this.ui.queue(new DiceAnimation4(dice, this.ui));
         });
 
-        this.socket.on(Dice.D4.stub, (dice: Dice6) => {
+        this.socket.on(Dice.D6.stub, (dice: Dice6) => {
             this.ui.queue(new DiceAnimation6(dice, this.ui));
         });
 
